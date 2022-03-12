@@ -36,5 +36,10 @@
             }
             return true;
         }
+
+        public bool TryPlaceShip(uint x, uint y, Direction direction, uint length)
+        {
+            return CanPlaceShip(x, y, direction, length);
+        }
     }
 }
