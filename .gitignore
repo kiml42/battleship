@@ -1,0 +1,5 @@
+.vs/
+src/Battleship/bin/
+src/Battleship/obj/
+test/Battleship.Test/bin/
+test/Battleship.Test/obj/
