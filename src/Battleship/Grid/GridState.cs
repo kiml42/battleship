@@ -1,9 +1,13 @@
-﻿namespace Battleship.Grid
+﻿using System.Collections.Generic;
+
+namespace Battleship.Grid
 {
     public class GridState
     {
         public uint Width { get; private set; }
         public uint Height { get; private set; }
+
+        public List<ShipLocation> Ships { get; } = new List<ShipLocation>();
 
         public GridState(uint width, uint height)
         {
@@ -37,9 +41,13 @@
             return true;
         }
 
-        public bool TryPlaceShip(uint x, uint y, Direction direction, uint length)
+        public ShipLocation TryPlaceShip(uint x, uint y, Direction direction, uint length)
         {
-            return CanPlaceShip(x, y, direction, length);
+            if (!CanPlaceShip(x, y, direction, length))
+                return null;
+            var ship = new ShipLocation(x, y, direction, length);
+            Ships.Add(ship);
+            return ship;
         }
     }
 }

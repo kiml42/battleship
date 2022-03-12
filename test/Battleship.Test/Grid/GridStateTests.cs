@@ -10,9 +10,9 @@ namespace Battleship.Test.Grid
         [MemberData(nameof(GetGridPositions))]
         public void CanPlaceShip(bool expected, uint x, uint y, Direction direction, uint length)
         {
-            var state = new GridState(10, 10);
+            var grid = new GridState(10, 10);
 
-            var result = state.CanPlaceShip(x, y, direction, length);
+            var result = grid.CanPlaceShip(x, y, direction, length);
 
             Assert.Equal(expected, result);
         }
@@ -21,11 +21,21 @@ namespace Battleship.Test.Grid
         [MemberData(nameof(GetGridPositions))]
         public void TryPlaceShip(bool expected, uint x, uint y, Direction direction, uint length)
         {
-            var state = new GridState(10, 10);
+            var grid = new GridState(10, 10);
 
-            var result = state.TryPlaceShip(x, y, direction, length);
+            var result = grid.TryPlaceShip(x, y, direction, length);
 
-            Assert.Equal(expected, result);
+            if (expected)
+            {
+                Assert.NotNull(result);
+                var placedShip = Assert.Single(grid.Ships);
+                Assert.Equal(placedShip, result);
+            }
+            else
+            {
+                Assert.Null(result);
+                Assert.Empty(grid.Ships);
+            }
         }
 
         public static IEnumerable<object[]> GetGridPositions()
