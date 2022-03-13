@@ -81,6 +81,48 @@ namespace Battleship.Test.Grid
             }
         }
 
+        [Fact]
+        public void ShipAt_returnsNullForEmptyGrid()
+        {
+            var grid = new GridState(10, 10);
+
+            var result = grid.ShipAt(0, 0);
+
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void ShipAt_returnsNullForEmptyCell()
+        {
+            var grid = new GridState(10, 10);
+
+            var ship1 = grid.TryPlaceShip(0, 0, 0, Orientation.Horizontal);
+            Assert.NotNull(ship1);
+            Assert.Contains(ship1, grid.Ships);
+
+            var result = grid.ShipAt(2, 2);
+
+            Assert.Null(result);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void ShipAt_returnsTheShipAtTheLocation(uint x)
+        {
+            var grid = new GridState(10, 10);
+
+            var ship1 = grid.TryPlaceShip(0, 0, 4, Orientation.Horizontal);
+            Assert.NotNull(ship1);
+            Assert.Contains(ship1, grid.Ships);
+
+            var result = grid.ShipAt(x, 0);
+
+            Assert.Equal(ship1, result);
+        }
+
         /// <summary>
         /// 
         /// </summary>
