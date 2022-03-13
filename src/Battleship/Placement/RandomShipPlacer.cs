@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Battleship.Placement
 {
-    class RandomShipPlacer
+    public class RandomShipPlacer : IShipPlacer
     {
+        public bool TryPlaceShips(params uint[] shipLengths)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
