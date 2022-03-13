@@ -40,26 +40,25 @@ namespace Battleship.Test.Grid
 
         [Theory]
         // ships don't even touch
-        [InlineData(true, 5, 5, 4, Orientation.Vertical, 5, 8, 4, Orientation.Vertical)]
-        [InlineData(true, 0, 0, 4, Orientation.Vertical, 6, 9, 4, Orientation.Vertical)]
+        [InlineData(true, 5, 5, 4, Orientation.Horizontal, 5, 8, 4, Orientation.Horizontal)]
+        [InlineData(true, 0, 0, 4, Orientation.Horizontal, 6, 9, 4, Orientation.Horizontal)]
 
         //Ships touch but don't overlap
-        [InlineData(true, 5, 5, 4, Orientation.Vertical, 5, 6, 4, Orientation.Vertical)]
-        [InlineData(true, 0, 5, 4, Orientation.Vertical, 4, 5, 4, Orientation.Vertical)]
-        [InlineData(true, 0, 5, 4, Orientation.Vertical, 4, 5, 4, Orientation.Horizontal)]
+        [InlineData(true, 5, 5, 4, Orientation.Horizontal, 5, 6, 4, Orientation.Horizontal)]
+        [InlineData(true, 0, 5, 4, Orientation.Horizontal, 4, 5, 4, Orientation.Horizontal)]
+        [InlineData(true, 0, 5, 4, Orientation.Horizontal, 4, 5, 4, Orientation.Vertical)]
 
         //ships in same direction
-        [InlineData(false, 5, 5, 4, Orientation.Vertical, 5, 5, 4, Orientation.Vertical)] //right on top
-        [InlineData(false, 5, 5, 4, Orientation.Vertical, 7, 5, 3, Orientation.Vertical)]
-        [InlineData(false, 7, 5, 3, Orientation.Vertical, 5, 5, 4, Orientation.Vertical)]
+        [InlineData(false, 5, 5, 4, Orientation.Horizontal, 5, 5, 4, Orientation.Horizontal)] //right on top
+        [InlineData(false, 5, 5, 4, Orientation.Horizontal, 7, 5, 3, Orientation.Horizontal)]
+        [InlineData(false, 7, 5, 3, Orientation.Horizontal, 5, 5, 4, Orientation.Horizontal)]
 
         //crossed ships
-        [InlineData(false, 5, 5, 4, Orientation.Vertical, 6, 4, 4, Orientation.Horizontal)]
+        [InlineData(false, 5, 5, 4, Orientation.Horizontal, 6, 4, 4, Orientation.Vertical)]
         public void TryPlaceShip_WithExistingShip(
             bool canPlaceShip2,
             uint x1, uint y1, uint length1, Orientation direction1,
-            uint x2, uint y2, uint length2
-, Orientation direction2)
+            uint x2, uint y2, uint length2, Orientation direction2)
         {
             var grid = new GridState(10, 10);
 
