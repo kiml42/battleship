@@ -17,7 +17,7 @@ namespace Battleship.Test.Placement
 
             var placer = new RandomShipPlacer();
 
-            var result = placer.TryPlaceShips(sizesToPlace);
+            var result = placer.TryPlaceShips(grid, sizesToPlace);
 
             Assert.True(result);
 
@@ -29,18 +29,37 @@ namespace Battleship.Test.Placement
                 var expectedCount = group.Count();
                 Assert.Equal(expectedCount, grid.Ships.Count(s => s.Length == length));
             });
+
+            Assert.Contains(grid.Ships, s => s.Orientation == Orientation.Horizontal);
+            Assert.Contains(grid.Ships, s => s.Orientation == Orientation.Vertical);
         }
 
         [Fact]
-        public void TryPlaceShips_ReturnsFalseIfItCantFitAllTheShips()
+        public void TryPlaceShips_ReturnsFalseWithAnyShipsThatDontFIt()
         {
-            var sizesToPlace = new uint[] { 2, 3, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
+            var sizesToPlace = new uint[] { 11 };
 
             var grid = new GridState(10, 10);
 
             var placer = new RandomShipPlacer();
 
-            var result = placer.TryPlaceShips(sizesToPlace);
+            var result = placer.TryPlaceShips(grid, sizesToPlace);
+
+            Assert.False(result);
+
+            Assert.Empty(grid.Ships);
+        }
+
+        [Fact]
+        public void TryPlaceShips_ReturnsFalseIfItCantFitAllTheShips()
+        {
+            var sizesToPlace = new uint[] { 2, 3, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, };
+
+            var grid = new GridState(10, 10);
+
+            var placer = new RandomShipPlacer();
+
+            var result = placer.TryPlaceShips(grid, sizesToPlace);
 
             Assert.False(result);
 
