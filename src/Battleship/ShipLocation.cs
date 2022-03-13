@@ -12,7 +12,7 @@ namespace Battleship
     {
         public uint X { get; private set; }
         public uint Y { get; private set; }
-        public Direction Direction { get; private set; }
+        public Orientation Orientation { get; private set; }
         public uint Length { get; private set; }
 
         /// <summary>
@@ -22,16 +22,20 @@ namespace Battleship
         {
             get
             {
-                return Enumerable.Range(0, (int)Length).Select(i => new Point(i, i));
+                return Enumerable.Range(0, (int)Length).Select(i => {
+                    var x = X + (Orientation == Orientation.Horizontal ? i : 0);
+                    var y = Y + (Orientation == Orientation.Vertical ? i : 0);
+                    return new Point((int)x, (int)y);
+                    });
             }
         }
 
-        public ShipLocation(uint x, uint y, Direction direction, uint length)
+        public ShipLocation(uint x, uint y, uint length, Orientation orientation)
         {
             X = x;
             Y = y;
-            Direction = direction;
             Length = length;
+            Orientation = orientation;
         }
     }
 }

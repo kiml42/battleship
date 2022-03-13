@@ -15,25 +15,17 @@ namespace Battleship.Grid
             Height = height;
         }
 
-        public bool CanPlaceShip(uint x, uint y, Direction direction, uint length)
+        public bool CanPlaceShip(uint x, uint y, uint length, Orientation orientation)
         {
             if (x >= Width || y >= Width)
                 return false;   //Start is off the grid.
-            switch (direction)
+            switch (orientation)
             {
-                case Direction.Up:
-                    if (length > y + 1)
-                        return false;
-                    break;
-                case Direction.Down:
+                case Orientation.Horizontal:
                     if (y + length > Height)
                         return false;
                     break;
-                case Direction.Left:
-                    if (length > x + 1)
-                        return false;
-                    break;
-                case Direction.Right:
+                case Orientation.Vertical:
                     if (x + length > Width)
                         return false;
                     break;
@@ -41,11 +33,11 @@ namespace Battleship.Grid
             return true;
         }
 
-        public ShipLocation TryPlaceShip(uint x, uint y, Direction direction, uint length)
+        public ShipLocation TryPlaceShip(uint x, uint y, uint length, Orientation orientation)
         {
-            if (!CanPlaceShip(x, y, direction, length))
+            if (!CanPlaceShip(x, y, length, orientation))
                 return null;
-            var ship = new ShipLocation(x, y, direction, length);
+            var ship = new ShipLocation(x, y, length, orientation);
             Ships.Add(ship);
             return ship;
         }
