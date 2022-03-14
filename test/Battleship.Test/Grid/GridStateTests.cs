@@ -1,11 +1,13 @@
 ﻿using Battleship.Grid;
 using System.Collections.Generic;
+using System.Drawing;
 using Xunit;
 
 namespace Battleship.Test.Grid
 {
     public class GridStateTests
     {
+        #region CanPlaceShip
         [Theory]
         [MemberData(nameof(GetGridPositions))]
         public void CanPlaceShip(bool expected, uint x, uint y, uint length, Orientation orientation)
@@ -16,7 +18,9 @@ namespace Battleship.Test.Grid
 
             Assert.Equal(expected, result);
         }
+        # endregion CanPlaceShip
 
+        #region TryPlaceShip
         [Theory]
         [MemberData(nameof(GetGridPositions))]
         public void TryPlaceShip_InEmptyGrid(bool expected, uint x, uint y, uint length, Orientation orientation)
@@ -80,7 +84,9 @@ namespace Battleship.Test.Grid
                 Assert.Single(grid.Ships, s => s == ship1);
             }
         }
+        #endregion TryPlaceShip
 
+        #region ShipAt
         [Fact]
         public void ShipAt_returnsNullForEmptyGrid()
         {
@@ -122,6 +128,41 @@ namespace Battleship.Test.Grid
 
             Assert.Equal(ship1, result);
         }
+        #endregion ShipAt
+
+        #region Shoot
+        [Fact]
+        public void Shoot_ReturnsMiss()
+        {
+            var grid = new GridState(10, 10);
+
+            var resut = grid.Shoot(0,2);
+
+            Assert.Equal(0, (int)resut.X);
+            Assert.Equal(2, (int)resut.Y);
+            Assert.False(resut.IsHit);
+            Assert.Equal(0, resut.Index);
+
+            Assert.Single(grid.ShotResults);
+        }
+
+        [Fact]
+        public void Shoot_ReturnsHit()
+        {
+            var grid = new GridState(10, 10);
+
+            grid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
+
+            var resut = grid.Shoot(0,2);
+
+            Assert.Equal(0, (int)resut.X);
+            Assert.Equal(2, (int)resut.Y);
+            Assert.True(resut.IsHit);
+            Assert.Equal(0, resut.Index);
+
+            Assert.Single(grid.ShotResults);
+        }
+        #endregion
 
         /// <summary>
         /// 

@@ -20,6 +20,8 @@ namespace Battleship.Grid
 
         private IEnumerable<Point> AllCoordinatesWithShips => Ships.SelectMany(s => s.FullCoordinates);
 
+        public List<ShotResult> ShotResults { get; } = new List<ShotResult>();
+
         public bool CanPlaceShip(uint x, uint y, uint length, Orientation orientation)
         {
             var ship = new ShipLocation(x, y, length, orientation);
@@ -38,7 +40,7 @@ namespace Battleship.Grid
         public ShipLocation ShipAt(uint x, uint y)
         {
             var point = new Point((int)x, (int)y);
-            return Ships.FirstOrDefault(s => s.FullCoordinates.Contains(point));
+            return Ships.SingleOrDefault(s => s.FullCoordinates.Contains(point));
         }
 
         private bool CanPlaceShip(ShipLocation ship)
@@ -79,6 +81,16 @@ namespace Battleship.Grid
                 text = ship.Length.ToString();
             }
             return text.PadRight(2).PadLeft(3);
+        }
+
+        public ShotResult Shoot(uint x, uint y)
+        {
+            var ship = ShipAt(x, y);
+            var result = new ShotResult(x, y, ship != null, ShotResults.Count);
+
+            this.ShotResults.Add(result);
+
+            return result;
         }
     }
 }
