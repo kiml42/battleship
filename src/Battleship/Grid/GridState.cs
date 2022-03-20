@@ -22,6 +22,26 @@ namespace Battleship.Grid
 
         public List<ShotResult> ShotResults { get; } = new List<ShotResult>();
 
+        /// <summary>
+        /// The current state of all the coordinates in the grid.
+        /// Can be indexed with [y][x]
+        /// </summary>
+        public List<List<CoordinateState>> CoordinateStates
+        {
+            get {
+                return Enumerable.Range(0, (int)Height)
+                    .Select(rowIndex =>
+                {
+                    return Enumerable.Range(0, (int)Width)
+                    .Select(columnIndex => {
+                        var ship = ShipAt((uint)columnIndex, (uint)rowIndex);
+                        var shots = ShotResults.Where(s => s.X == columnIndex && s.Y == rowIndex);
+                        return new CoordinateState((uint)columnIndex, (uint)rowIndex, ship, shots);
+                    }).ToList();
+                }).ToList();
+            }
+        }
+
         public bool CanPlaceShip(uint x, uint y, uint length, Orientation orientation)
         {
             var ship = new ShipLocation(x, y, length, orientation);
@@ -55,34 +75,6 @@ namespace Battleship.Grid
             return AllCoordinatesWithShips.All(p => p != newShipPart);
         }
 
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-
-            int rowLength = 0;
-            for (uint y = 0; y < Height; y++)
-            {
-                var cells = Enumerable.Range(0, (int)Width).Select(x => GetTextForCell((uint)x, y));
-                var row = "|" + string.Join("|", cells) + "|";
-                rowLength = row.Length;
-                sb.AppendLine(new string('-', rowLength));
-                sb.AppendLine(row);
-            }
-            sb.AppendLine(new string('-', rowLength));
-            return sb.ToString();
-        }
-
-        private string GetTextForCell(uint x, uint y)
-        {
-            var text = string.Empty;
-            var ship = ShipAt(x, y);
-            if(ship != null)
-            {
-                text = ship.Length.ToString();
-            }
-            return text.PadRight(2).PadLeft(3);
-        }
-
         public ShotResult Shoot(Point coordinate)
         {
             // TODO test this
@@ -102,6 +94,34 @@ namespace Battleship.Grid
             this.ShotResults.Add(result);
 
             return result;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            int rowLength = 0;
+            foreach (var row in CoordinateStates)
+            {
+                var cells = row.Select(coordinate => GetTextForCell(coordinate.X, coordinate.Y));
+                var rowString = "|" + string.Join("|", cells) + "|";
+                rowLength = rowString.Length;
+                sb.AppendLine(new string('-', rowLength));
+                sb.AppendLine(rowString);
+            }
+            sb.AppendLine(new string('-', rowLength));
+            return sb.ToString();
+        }
+
+        private string GetTextForCell(uint x, uint y)
+        {
+            var text = string.Empty;
+            var ship = ShipAt(x, y);
+            if (ship != null)
+            {
+                text = ship.Length.ToString();
+            }
+            return text.PadRight(2).PadLeft(3);
         }
     }
 }

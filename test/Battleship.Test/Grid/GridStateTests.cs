@@ -1,6 +1,7 @@
 ﻿using Battleship.Grid;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using Xunit;
 
 namespace Battleship.Test.Grid
@@ -221,6 +222,28 @@ namespace Battleship.Test.Grid
             Assert.Equal(2, resut.Index);
 
             Assert.Equal(3, grid.ShotResults.Count);
+        }
+        #endregion
+
+        #region CoordinateStates
+        [Theory]
+        [InlineData(1,6)]
+        [InlineData(6,1)]
+        [InlineData(10,10)]
+        [InlineData(2,10)]
+        [InlineData(10,2)]
+        public void CoordinateStates_ReturnsExpectedCount(uint width, uint height)
+        {
+            var grid = new GridState(width, height);
+
+            var result = grid.CoordinateStates;
+
+            Assert.Equal((int)height, result.Count);
+            Assert.All(result, row =>
+            {
+                Assert.Equal((int)width, row.Count);
+            });
+            Assert.Equal((int)width * (int)height, result.Sum(row => row.Count));
         }
         #endregion
 
