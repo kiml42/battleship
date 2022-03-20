@@ -103,7 +103,7 @@ namespace Battleship.Grid
             int rowLength = 0;
             foreach (var row in CoordinateStates)
             {
-                var cells = row.Select(coordinate => GetTextForCell(coordinate.X, coordinate.Y));
+                var cells = row.Select(coordinate => coordinate.ToString());
                 var rowString = "|" + string.Join("|", cells) + "|";
                 rowLength = rowString.Length;
                 sb.AppendLine(new string('-', rowLength));
@@ -111,17 +111,6 @@ namespace Battleship.Grid
             }
             sb.AppendLine(new string('-', rowLength));
             return sb.ToString();
-        }
-
-        private string GetTextForCell(uint x, uint y)
-        {
-            var text = string.Empty;
-            var ship = ShipAt(x, y);
-            if (ship != null)
-            {
-                text = ship.Length.ToString();
-            }
-            return text.PadRight(2).PadLeft(3);
         }
     }
 }
