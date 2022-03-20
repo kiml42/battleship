@@ -83,6 +83,12 @@ namespace Battleship.Grid
             return text.PadRight(2).PadLeft(3);
         }
 
+        public ShotResult Shoot(Point coordinate)
+        {
+            // TODO test this
+            return Shoot((uint)coordinate.X, (uint)coordinate.Y);
+        }
+
         public ShotResult Shoot(uint x, uint y)
         {
             var ship = ShipAt(x, y);

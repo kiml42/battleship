@@ -204,7 +204,7 @@ namespace Battleship.Test.Grid
         }
 
         [Fact]
-        public void Shoot_ReturnsSinkInTheMiddle()
+        public void Shoot_ReturnsSinkInTheMiddleOfAShip()
         {
             var grid = new GridState(10, 10);
 
