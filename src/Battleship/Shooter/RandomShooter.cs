@@ -10,12 +10,26 @@ namespace Battleship.Shooter
 {
     public class RandomShooter : IShooter
     {
-        private readonly Random random = new Random();
+        private readonly Random random = new();
+        private const uint MAX_RETRIES = 500;
 
         public Point PickTarget(GridState grid)
         {
-            var x = random.Next(0, (int)grid.Width);
+            return PickTarget(grid, MAX_RETRIES);
+        }
+
+        public Point PickTarget(GridState grid, uint remainingRetries)
+        {
             var y = random.Next(0, (int)grid.Height);
+
+            //var shotsInRow = grid.ShotResults.Where(s => s.Y == y);
+
+            var x = random.Next(0, (int)grid.Width);
+
+            if(remainingRetries > 0 && grid.ShotResults.Any(r => r.X == x && r.Y == y))
+            {
+                return PickTarget(grid, --remainingRetries);    // try again to get a valid one.
+            }
 
             return new Point(x, y);
         }

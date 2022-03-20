@@ -53,7 +53,7 @@ namespace Battleship.Test.Shooter
         }
 
         [Fact]
-        public void PickTarget_NeverShootsAlreadyHitTarget()
+        public void PickTarget_OnlyHitsALreadyShotTargetsAfterHittingEverySpace()
         {
             var grid = new GridState(GRID_WIDTH, GRID_HEIGHT);
             var shooter = new RandomShooter();
@@ -67,6 +67,9 @@ namespace Battleship.Test.Shooter
                 Assert.DoesNotContain(newTarget, previousTargets);
                 previousTargets.Add(newTarget);
             }
+
+            var repeatShot = shooter.PickTarget(grid);
+            Assert.Contains(repeatShot, previousTargets);
         }
     }
 }
