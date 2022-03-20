@@ -13,25 +13,39 @@ namespace Battleship.Test.Placement
         {
             var sizesToPlace = new uint[] { 2, 3, 4, 4, 5 };
 
-            var grid = new GridState(10, 10);
-
-            var placer = new RandomShipPlacer();
-
-            var result = placer.TryPlaceShips(grid, sizesToPlace);
-
-            Assert.True(result);
-
-            var groups = sizesToPlace.GroupBy(i=>i);
-
-            Assert.All(groups, group =>
+            var totalHorizontalCount = 0;
+            var totalVerticalCount = 0;
+            const int repeats = 100;
+            for (int i = 0; i < repeats; i++)
             {
-                var length = group.Key;
-                var expectedCount = group.Count();
-                Assert.Equal(expectedCount, grid.Ships.Count(s => s.Length == length));
-            });
+                var grid = new GridState(10, 10);
+                var placer = new RandomShipPlacer();
+                var result = placer.TryPlaceShips(grid, sizesToPlace);
 
-            Assert.Contains(grid.Ships, s => s.Orientation == Orientation.Horizontal);
-            Assert.Contains(grid.Ships, s => s.Orientation == Orientation.Vertical);
+                Assert.True(result);
+
+                var groups = sizesToPlace.GroupBy(i=>i);
+
+                Assert.All(groups, group =>
+                {
+                    var length = group.Key;
+                    var expectedCount = group.Count();
+                    Assert.Equal(expectedCount, grid.Ships.Count(s => s.Length == length));
+                });
+
+                var horizontalCount = grid.Ships.Count(s => s.Orientation == Orientation.Horizontal);
+                var verticalCount = grid.Ships.Count(s => s.Orientation == Orientation.Vertical);
+                totalHorizontalCount += horizontalCount;
+                totalVerticalCount += verticalCount;
+            }
+
+            // check that the number of horizontals and verticals are close to half each
+            var totalShipsPlaced = totalHorizontalCount + totalVerticalCount;
+            Assert.Equal(repeats * sizesToPlace.Length, totalShipsPlaced);
+            var fortiethPercentile = totalShipsPlaced * 0.4;
+            var sixtiethPercentile = totalShipsPlaced * 0.6;
+            Assert.InRange(totalHorizontalCount, fortiethPercentile, sixtiethPercentile);
+            Assert.InRange(totalVerticalCount, fortiethPercentile, sixtiethPercentile);
         }
 
         [Fact]
