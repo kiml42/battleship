@@ -158,9 +158,69 @@ namespace Battleship.Test.Grid
             Assert.Equal(0, (int)resut.X);
             Assert.Equal(2, (int)resut.Y);
             Assert.True(resut.IsHit);
+            Assert.False(resut.IsSink);
             Assert.Equal(0, resut.Index);
 
             Assert.Single(grid.ShotResults);
+        }
+
+        [Fact]
+        public void Shoot_ReturnsDuplicateHit()
+        {
+            var grid = new GridState(10, 10);
+
+            grid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
+
+            grid.Shoot(0,2);
+            var resut = grid.Shoot(0,2);
+
+            Assert.Equal(0, (int)resut.X);
+            Assert.Equal(2, (int)resut.Y);
+            Assert.True(resut.IsHit);
+            Assert.False(resut.IsSink);
+            Assert.Equal(1, resut.Index);
+
+            Assert.Equal(2, grid.ShotResults.Count);
+        }
+
+        [Fact]
+        public void Shoot_ReturnsSink()
+        {
+            var grid = new GridState(10, 10);
+
+            grid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
+
+            grid.Shoot(0,0);
+            grid.Shoot(0,1);
+            var resut = grid.Shoot(0,2);
+
+            Assert.Equal(0, (int)resut.X);
+            Assert.Equal(2, (int)resut.Y);
+            Assert.True(resut.IsHit);
+            Assert.True(resut.IsSink);
+            Assert.Equal(2, resut.Index);
+
+            Assert.Equal(3, grid.ShotResults.Count);
+        }
+
+        [Fact]
+        public void Shoot_ReturnsSinkInTheMiddle()
+        {
+            var grid = new GridState(10, 10);
+
+            grid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
+
+            grid.Shoot(0,0);
+            grid.Shoot(0,2);
+            var resut = grid.Shoot(0,1);
+
+            Assert.Equal(0, (int)resut.X);
+            Assert.Equal(1, (int)resut.Y);
+            Assert.True(resut.IsHit);
+            Assert.True(resut.IsSink);
+            Assert.Equal(2, resut.Index);
+
+            Assert.Equal(3, grid.ShotResults.Count);
         }
         #endregion
 

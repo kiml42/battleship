@@ -86,7 +86,12 @@ namespace Battleship.Grid
         public ShotResult Shoot(uint x, uint y)
         {
             var ship = ShipAt(x, y);
-            var result = new ShotResult(x, y, ship != null, ShotResults.Count);
+
+            var remaining = ship?.FullCoordinates.Where(l => !ShotResults.Any(s => s.X == l.X && s.Y == l.Y));
+
+            var isSink = remaining?.Count() == 1 && remaining.Any(l => l.X == x && l.Y == y);
+
+            var result = new ShotResult(x, y, ship != null, isSink, ShotResults.Count);
 
             this.ShotResults.Add(result);
 
