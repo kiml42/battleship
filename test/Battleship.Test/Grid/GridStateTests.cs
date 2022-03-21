@@ -156,7 +156,7 @@ namespace Battleship.Test.Grid
 
         #region ToString
         [Fact]
-        public override void ToString_includesExpectedDetails()
+        public void ToString_includesExpectedDetails()
         {
             var grid = CreateGrid(4, 2, out _);
 
