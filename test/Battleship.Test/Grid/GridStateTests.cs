@@ -256,6 +256,9 @@ namespace Battleship.Test.Grid
 
             Assert.NotNull(grid.TryPlaceShip(0, 0, 3, Orientation.Horizontal));
             Assert.NotNull(grid.TryPlaceShip(3, 0, 2, Orientation.Vertical));
+            grid.Shoot(0, 1);
+            grid.Shoot(3, 0);
+            grid.Shoot(3, 1);
 
             var result = grid.ToString();
             Assert.NotEmpty(result);
@@ -285,16 +288,16 @@ namespace Battleship.Test.Grid
             Assert.Equal(" 3 ", topRowCells[1]);
             Assert.Equal(" 3 ", topRowCells[2]);
             Assert.Equal(" 3 ", topRowCells[3]);
-            Assert.Equal(" 2 ", topRowCells[4]);
+            Assert.Equal("X2 ", topRowCells[4]);    // "X" for hit
             Assert.Equal("", topRowCells[5]);
 
             var bottomRowCells = rows[3].Split("|");
             Assert.Equal(6, bottomRowCells.Length);
             Assert.Equal("", bottomRowCells[0]);
-            Assert.Equal("   ", bottomRowCells[1]);
+            Assert.Equal("O  ", bottomRowCells[1]); //"O" for miss
             Assert.Equal("   ", bottomRowCells[2]);
             Assert.Equal("   ", bottomRowCells[3]);
-            Assert.Equal(" 2 ", bottomRowCells[4]);
+            Assert.Equal("X2S", bottomRowCells[4]); //"S" for sink
             Assert.Equal("", bottomRowCells[5]);
         }
         #endregion

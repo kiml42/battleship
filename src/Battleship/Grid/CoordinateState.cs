@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Battleship.Grid
 {
@@ -22,12 +23,13 @@ namespace Battleship.Grid
 
         public override string ToString()
         {
-            var text = string.Empty;
-            if (Ship != null)
-            {
-                text = Ship.Length.ToString();
-            }
-            return text.PadRight(2).PadLeft(3);
+            var hitIndicator = Shots.Any()
+                ? Shots.First().IsHit ? "X" : "O"
+                : " ";
+            var shipSize = Ship?.Length.ToString() ?? " ";
+            var sinkIndicator = Shots.Any(s => s.IsSink) ? "S" : " ";
+            var text = hitIndicator + shipSize + sinkIndicator;
+            return text;
         }
     }
 }
