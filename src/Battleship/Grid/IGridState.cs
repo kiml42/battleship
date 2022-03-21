@@ -1,9 +1,17 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace Battleship.Grid
 {
     public interface IGridState
     {
+        uint Width { get; }
+        uint Height { get; }
+
+        public List<List<CoordinateState>> CoordinateStates { get; }
+
+        public List<ShotResult> ShotResults { get; }
+
         ShotResult Shoot(Point coordinate)
         {
             // TODO test this

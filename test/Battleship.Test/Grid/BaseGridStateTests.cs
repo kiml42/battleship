@@ -22,7 +22,7 @@ namespace Battleship.Test.Grid
             Assert.False(resut.IsHit);
             Assert.Equal(0, resut.Index);
 
-            Assert.Single(grid.ShotResults);
+            Assert.Single(underlyingGrid.ShotResults);
         }
 
         [Fact]
@@ -30,7 +30,7 @@ namespace Battleship.Test.Grid
         {
             var grid = CreateGrid(10, 10, out var underlyingGrid);
 
-            grid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
+            underlyingGrid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
 
             var resut = grid.Shoot(0,2);
 
@@ -40,7 +40,7 @@ namespace Battleship.Test.Grid
             Assert.False(resut.IsSink);
             Assert.Equal(0, resut.Index);
 
-            Assert.Single(grid.ShotResults);
+            Assert.Single(underlyingGrid.ShotResults);
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace Battleship.Test.Grid
         {
             var grid = CreateGrid(10, 10, out var underlyingGrid);
 
-            grid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
+            underlyingGrid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
 
             grid.Shoot(0,2);
             var resut = grid.Shoot(0,2);
@@ -59,7 +59,7 @@ namespace Battleship.Test.Grid
             Assert.False(resut.IsSink);
             Assert.Equal(1, resut.Index);
 
-            Assert.Equal(2, grid.ShotResults.Count);
+            Assert.Equal(2, underlyingGrid.ShotResults.Count);
         }
 
         [Fact]
@@ -67,7 +67,7 @@ namespace Battleship.Test.Grid
         {
             var grid = CreateGrid(10, 10, out var underlyingGrid);
 
-            grid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
+            underlyingGrid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
 
             grid.Shoot(0,0);
             grid.Shoot(0,1);
@@ -79,7 +79,7 @@ namespace Battleship.Test.Grid
             Assert.True(resut.IsSink);
             Assert.Equal(2, resut.Index);
 
-            Assert.Equal(3, grid.ShotResults.Count);
+            Assert.Equal(3, underlyingGrid.ShotResults.Count);
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace Battleship.Test.Grid
         {
             var grid = CreateGrid(10, 10, out var underlyingGrid);
 
-            grid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
+            underlyingGrid.TryPlaceShip(0, 0, 3, Orientation.Vertical);
 
             grid.Shoot(0,0);
             grid.Shoot(0,2);
@@ -99,7 +99,7 @@ namespace Battleship.Test.Grid
             Assert.True(resut.IsSink);
             Assert.Equal(2, resut.Index);
 
-            Assert.Equal(3, grid.ShotResults.Count);
+            Assert.Equal(3, underlyingGrid.ShotResults.Count);
         }
         #endregion
 
@@ -110,7 +110,7 @@ namespace Battleship.Test.Grid
         [InlineData(10,10)]
         [InlineData(2,10)]
         [InlineData(10,2)]
-        public void CoordinateStates_ReturnsExpectedCount(uint width, uint height)
+        public virtual void CoordinateStates_ReturnsExpectedCount(uint width, uint height)
         {
             var grid = CreateGrid(width, height, out var underlyingGrid);
 
@@ -127,12 +127,12 @@ namespace Battleship.Test.Grid
 
         #region ToString
         [Fact]
-        public void ToString_includesExpectedDetails()
+        public virtual void ToString_includesExpectedDetails()
         {
             var grid = CreateGrid(4, 2, out var underlyingGrid);
 
-            Assert.NotNull(grid.TryPlaceShip(0, 0, 3, Orientation.Horizontal));
-            Assert.NotNull(grid.TryPlaceShip(3, 0, 2, Orientation.Vertical));
+            Assert.NotNull(underlyingGrid.TryPlaceShip(0, 0, 3, Orientation.Horizontal));
+            Assert.NotNull(underlyingGrid.TryPlaceShip(3, 0, 2, Orientation.Vertical));
             grid.Shoot(0, 1);
             grid.Shoot(3, 0);
             grid.Shoot(3, 1);

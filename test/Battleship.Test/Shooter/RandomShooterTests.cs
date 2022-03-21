@@ -55,7 +55,7 @@ namespace Battleship.Test.Shooter
         [Fact]
         public void PickTarget_OnlyHitsALreadyShotTargetsAfterHittingEverySpace()
         {
-            var grid = new GridState(GRID_WIDTH, GRID_HEIGHT);
+            IGridState grid = new GridState(GRID_WIDTH, GRID_HEIGHT);
             var shooter = new RandomShooter();
 
             var previousTargets = new List<Point>();

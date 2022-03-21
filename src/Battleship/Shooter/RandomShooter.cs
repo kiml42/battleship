@@ -13,12 +13,12 @@ namespace Battleship.Shooter
         private readonly Random random = new();
         private const uint MAX_RETRIES = 500;
 
-        public Point PickTarget(GridState grid)
+        public Point PickTarget(IGridState grid)
         {
             return PickTarget(grid, MAX_RETRIES);
         }
 
-        public Point PickTarget(GridState grid, uint remainingRetries)
+        public Point PickTarget(IGridState grid, uint remainingRetries)
         {
             var y = random.Next(0, (int)grid.Height);
 

@@ -14,7 +14,7 @@ namespace Battleship.Test.Grid
         [MemberData(nameof(GetGridPositions))]
         public void CanPlaceShip(bool expected, uint x, uint y, uint length, Orientation orientation)
         {
-            var grid = new GridState(10, 10);
+            var grid = CreateGrid(10, 10, out _);
 
             var result = grid.CanPlaceShip(x, y, length, orientation);
 
@@ -27,7 +27,7 @@ namespace Battleship.Test.Grid
         [MemberData(nameof(GetGridPositions))]
         public void TryPlaceShip_InEmptyGrid(bool expected, uint x, uint y, uint length, Orientation orientation)
         {
-            var grid = new GridState(10, 10);
+            var grid = CreateGrid(10, 10, out _);
 
             var result = grid.TryPlaceShip(x, y, length, orientation);
 
@@ -66,7 +66,7 @@ namespace Battleship.Test.Grid
             uint x1, uint y1, uint length1, Orientation direction1,
             uint x2, uint y2, uint length2, Orientation direction2)
         {
-            var grid = new GridState(10, 10);
+            var grid = CreateGrid(10, 10, out _);
 
             var ship1 = grid.TryPlaceShip(x1, y1, length1, direction1);
             Assert.NotNull(ship1);
@@ -92,7 +92,7 @@ namespace Battleship.Test.Grid
         [Fact]
         public void ShipAt_returnsNullForEmptyGrid()
         {
-            var grid = new GridState(10, 10);
+            var grid = CreateGrid(10, 10, out _);
 
             var result = grid.ShipAt(0, 0);
 
@@ -102,7 +102,7 @@ namespace Battleship.Test.Grid
         [Fact]
         public void ShipAt_returnsNullForEmptyCell()
         {
-            var grid = new GridState(10, 10);
+            var grid = CreateGrid(10, 10, out _);
 
             var ship1 = grid.TryPlaceShip(0, 0, 0, Orientation.Horizontal);
             Assert.NotNull(ship1);
@@ -120,7 +120,7 @@ namespace Battleship.Test.Grid
         [InlineData(3)]
         public void ShipAt_returnsTheShipAtTheLocation(uint x)
         {
-            var grid = new GridState(10, 10);
+            var grid = CreateGrid(10, 10, out _);
 
             var ship1 = grid.TryPlaceShip(0, 0, 4, Orientation.Horizontal);
             Assert.NotNull(ship1);
@@ -139,9 +139,9 @@ namespace Battleship.Test.Grid
         [InlineData(10,10)]
         [InlineData(2,10)]
         [InlineData(10,2)]
-        public void CoordinateStates_ReturnsExpectedCount(uint width, uint height)
+        public override void CoordinateStates_ReturnsExpectedCount(uint width, uint height)
         {
-            var grid = new GridState(width, height);
+            var grid = CreateGrid(width, height, out _);
 
             var result = grid.CoordinateStates;
 
@@ -156,9 +156,9 @@ namespace Battleship.Test.Grid
 
         #region ToString
         [Fact]
-        public void ToString_includesExpectedDetails()
+        public override void ToString_includesExpectedDetails()
         {
-            var grid = new GridState(4, 2);
+            var grid = CreateGrid(4, 2, out _);
 
             Assert.NotNull(grid.TryPlaceShip(0, 0, 3, Orientation.Horizontal));
             Assert.NotNull(grid.TryPlaceShip(3, 0, 2, Orientation.Vertical));

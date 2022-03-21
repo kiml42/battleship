@@ -5,6 +5,6 @@ namespace Battleship.Shooter
 {
     public interface IShooter
     {
-        Point PickTarget(GridState grid);
+        Point PickTarget(IGridState grid);
     }
 }
