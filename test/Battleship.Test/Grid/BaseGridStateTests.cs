@@ -22,7 +22,7 @@ namespace Battleship.Test.Grid
             Assert.False(resut.IsHit);
             Assert.Equal(0, resut.Index);
 
-            Assert.Single(underlyingGrid.ShotResults);
+            Assert.Single(grid.ShotResults);
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace Battleship.Test.Grid
             Assert.False(resut.IsSink);
             Assert.Equal(0, resut.Index);
 
-            Assert.Single(underlyingGrid.ShotResults);
+            Assert.Single(grid.ShotResults);
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace Battleship.Test.Grid
             Assert.False(resut.IsSink);
             Assert.Equal(1, resut.Index);
 
-            Assert.Equal(2, underlyingGrid.ShotResults.Count);
+            Assert.Equal(2, grid.ShotResults.Count);
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace Battleship.Test.Grid
             Assert.True(resut.IsSink);
             Assert.Equal(2, resut.Index);
 
-            Assert.Equal(3, underlyingGrid.ShotResults.Count);
+            Assert.Equal(3, grid.ShotResults.Count);
         }
 
         [Fact]
@@ -99,7 +99,7 @@ namespace Battleship.Test.Grid
             Assert.True(resut.IsSink);
             Assert.Equal(2, resut.Index);
 
-            Assert.Equal(3, underlyingGrid.ShotResults.Count);
+            Assert.Equal(3, grid.ShotResults.Count);
         }
         #endregion
 
