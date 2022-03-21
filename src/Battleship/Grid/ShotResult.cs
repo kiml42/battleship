@@ -16,5 +16,12 @@
             IsSink = isSink;
             Index = index;
         }
+
+        public override string ToString()
+        {
+            var hitString = IsHit ? "Hit" : "";
+            var sinkString = IsSink ? " & Sink" : "";
+            return $"{X},{Y} - {hitString}{sinkString}";
+        }
     }
 }
