@@ -1,4 +1,5 @@
 ﻿using Battleship.Grid;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -244,6 +245,57 @@ namespace Battleship.Test.Grid
                 Assert.Equal((int)width, row.Count);
             });
             Assert.Equal((int)width * (int)height, result.Sum(row => row.Count));
+        }
+        #endregion
+
+        #region ToString
+        [Fact]
+        public void ToString_includesExpectedDetails()
+        {
+            var grid = new GridState(4, 2);
+
+            Assert.NotNull(grid.TryPlaceShip(0, 0, 3, Orientation.Horizontal));
+            Assert.NotNull(grid.TryPlaceShip(3, 0, 2, Orientation.Vertical));
+
+            var result = grid.ToString();
+            Assert.NotEmpty(result);
+            Assert.EndsWith(Environment.NewLine, result);
+
+            result = result.TrimEnd();
+
+            var rows = result.Split(Environment.NewLine);
+            Assert.Equal(5, rows.Length);
+
+            const int expectedRowLength = 17;
+            // even numbered rows are just "-"s as grid lines.
+            var expectedHorizontalDividerRow = new string('-', expectedRowLength);
+            Assert.Equal(expectedHorizontalDividerRow, rows[0]);
+            Assert.Equal(expectedHorizontalDividerRow, rows[2]);
+            Assert.Equal(expectedHorizontalDividerRow, rows[4]);
+
+            // all rows are of expected length
+            Assert.All(rows, row =>
+            {
+                Assert.Equal(expectedRowLength, row.Length);
+            });
+
+            var topRowCells = rows[1].Split("|");
+            Assert.Equal(6, topRowCells.Length);
+            Assert.Equal("", topRowCells[0]);   // empty strings at the end because of the "|"s at both ends of the string.
+            Assert.Equal(" 3 ", topRowCells[1]);
+            Assert.Equal(" 3 ", topRowCells[2]);
+            Assert.Equal(" 3 ", topRowCells[3]);
+            Assert.Equal(" 2 ", topRowCells[4]);
+            Assert.Equal("", topRowCells[5]);
+
+            var bottomRowCells = rows[3].Split("|");
+            Assert.Equal(6, bottomRowCells.Length);
+            Assert.Equal("", bottomRowCells[0]);
+            Assert.Equal("   ", bottomRowCells[1]);
+            Assert.Equal("   ", bottomRowCells[2]);
+            Assert.Equal("   ", bottomRowCells[3]);
+            Assert.Equal(" 2 ", bottomRowCells[4]);
+            Assert.Equal("", bottomRowCells[5]);
         }
         #endregion
 
