@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Battleship.Grid
 {
-    public class GridState
+    public class GridState : IGridState
     {
         public uint Width { get; private set; }
         public uint Height { get; private set; }
@@ -73,12 +73,6 @@ namespace Battleship.Grid
             if (newShipPart.X >= Width || newShipPart.Y >= Height)
                 return false;
             return AllCoordinatesWithShips.All(p => p != newShipPart);
-        }
-
-        public ShotResult Shoot(Point coordinate)
-        {
-            // TODO test this
-            return Shoot((uint)coordinate.X, (uint)coordinate.Y);
         }
 
         public ShotResult Shoot(uint x, uint y)
