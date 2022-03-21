@@ -8,58 +8,75 @@ namespace Battleship.Test.Grid
 {
     public class MaskedGridStateTests : BaseGridStateTests<MaskedGridState>
     {
-
         #region ToString
         [Fact]
-        public void ToString_includesExpectedDetails()
+        public void ToString_includesExpectedDetails_NoSettingsIsAllOff()
         {
-            var grid = CreateGrid(4, 2, out var underlyingGrid);
+            var grid = CreateGridForToStringTests();
 
-            Assert.NotNull(underlyingGrid.TryPlaceShip(0, 0, 3, Orientation.Horizontal));
-            Assert.NotNull(underlyingGrid.TryPlaceShip(3, 0, 2, Orientation.Vertical));
-            grid.Shoot(0, 1);
-            grid.Shoot(3, 0);
-            grid.Shoot(3, 1);
+            var settings = new GridMaskSettings(false, false);
+
+            grid.ApplySettings(settings);
 
             var result = grid.ToString();
-            Assert.NotEmpty(result);
-            Assert.EndsWith(Environment.NewLine, result);
 
-            result = result.TrimEnd();
+            StandardToStringAssertions(result, "   ", "X  ", "X  ");
+        }
 
-            var rows = result.Split(Environment.NewLine);
-            Assert.Equal(5, rows.Length);
+        [Fact]
+        public void ToString_includesExpectedDetails_AllOff()
+        {
+            var grid = CreateGridForToStringTests();
 
-            const int expectedRowLength = 17;
-            // even numbered rows are just "-"s as grid lines.
-            var expectedHorizontalDividerRow = new string('-', expectedRowLength);
-            Assert.Equal(expectedHorizontalDividerRow, rows[0]);
-            Assert.Equal(expectedHorizontalDividerRow, rows[2]);
-            Assert.Equal(expectedHorizontalDividerRow, rows[4]);
+            var settings = new GridMaskSettings(false, false);
 
-            // all rows are of expected length
-            Assert.All(rows, row =>
-            {
-                Assert.Equal(expectedRowLength, row.Length);
-            });
+            grid.ApplySettings(settings);
 
-            var topRowCells = rows[1].Split("|");
-            Assert.Equal(6, topRowCells.Length);
-            Assert.Equal("", topRowCells[0]);   // empty strings at the end because of the "|"s at both ends of the string.
-            Assert.Equal(" 3 ", topRowCells[1]);
-            Assert.Equal(" 3 ", topRowCells[2]);
-            Assert.Equal(" 3 ", topRowCells[3]);
-            Assert.Equal("X2 ", topRowCells[4]);    // "X" for hit
-            Assert.Equal("", topRowCells[5]);
+            var result = grid.ToString();
 
-            var bottomRowCells = rows[3].Split("|");
-            Assert.Equal(6, bottomRowCells.Length);
-            Assert.Equal("", bottomRowCells[0]);
-            Assert.Equal("O  ", bottomRowCells[1]); //"O" for miss
-            Assert.Equal("   ", bottomRowCells[2]);
-            Assert.Equal("   ", bottomRowCells[3]);
-            Assert.Equal("X2S", bottomRowCells[4]); //"S" for sink
-            Assert.Equal("", bottomRowCells[5]);
+            StandardToStringAssertions(result, "   ", "X  ", "X  ");
+        }
+
+        [Fact]
+        public void ToString_includesExpectedDetails_JustSinks()
+        {
+            var grid = CreateGridForToStringTests();
+
+            var settings = new GridMaskSettings(true, false);
+
+            grid.ApplySettings(settings);
+
+            var result = grid.ToString();
+
+            StandardToStringAssertions(result, "   ", "X  ", "X S");
+        }
+
+        [Fact]
+        public void ToString_includesExpectedDetails_JustLengths()
+        {
+            var grid = CreateGridForToStringTests();
+
+            var settings = new GridMaskSettings(false, true);
+
+            grid.ApplySettings(settings);
+
+            var result = grid.ToString();
+
+            StandardToStringAssertions(result, "   ", "X2 ", "X2 ");
+        }
+
+        [Fact]
+        public void ToString_includesExpectedDetails_BothOn()
+        {
+            var grid = CreateGridForToStringTests();
+
+            var settings = new GridMaskSettings(true, true);
+
+            grid.ApplySettings(settings);
+
+            var result = grid.ToString();
+
+            StandardToStringAssertions(result, "   ", "X2 ", "X2S");
         }
         #endregion
 

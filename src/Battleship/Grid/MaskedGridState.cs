@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Battleship.Grid
 {
@@ -11,7 +12,6 @@ namespace Battleship.Grid
             _grid = grid;
         }
 
-
         public uint Width => _grid.Width;
 
         public uint Height => _grid.Height;
@@ -19,6 +19,13 @@ namespace Battleship.Grid
         public List<List<CoordinateState>> CoordinateStates => _grid.CoordinateStates;
 
         public List<ShotResult> ShotResults => _grid.ShotResults;
+
+        private GridMaskSettings _settings;
+
+        public void ApplySettings(GridMaskSettings settings)
+        {
+            _settings = settings;
+        }
 
         public ShotResult Shoot(uint x, uint y)
         {
