@@ -1,4 +1,5 @@
 ﻿using Battleship.Grid;
+using Battleship.Placement;
 using Battleship.Shooter;
 using System;
 using System.Collections.Generic;
@@ -70,6 +71,44 @@ namespace Battleship.Test.Shooter
 
             var repeatShot = shooter.PickTarget(grid);
             Assert.Contains(repeatShot, previousTargets);
+        }
+    
+        [Fact]
+        public void EventuallyWins()
+        {
+            var shotsToWin = new List<int>();
+            var shipsToPlace = new uint[]{ 5, 4, 4, 3, 2 };
+
+            var worstPossibleShotsToWin = GRID_WIDTH * GRID_HEIGHT;
+            for (int j = 0; j < 1000; j++)
+            {
+                var grid = new GridState(GRID_WIDTH, GRID_HEIGHT);
+                var shipPlacer = new RandomShipPlacer();
+                shipPlacer.TryPlaceShips(grid, shipsToPlace);
+
+                var shooter = new RandomShooter();
+                for (int i = 0; i < worstPossibleShotsToWin * 2; i++)
+                {
+                    var newTarget = shooter.PickTarget(grid);
+                    ((IGridState)grid).Shoot(newTarget);
+                    if(grid.RemainingTargetCoordinates == 0)
+                    {
+                        shotsToWin.Add(i + 1);
+                        break;
+                    }
+                }
+                Assert.Equal(0, grid.RemainingTargetCoordinates);
+            }
+
+            var bestPossibleShotsToWin = shipsToPlace.Sum(s => (int)s);
+
+            var bestShotsToWin = shotsToWin.Min();
+            var averageShotsToWin = shotsToWin.Average();
+            var worstShotsToWin = shotsToWin.Max();
+
+            Assert.InRange(bestShotsToWin, bestPossibleShotsToWin, worstPossibleShotsToWin);
+            Assert.InRange(averageShotsToWin, bestPossibleShotsToWin, worstPossibleShotsToWin);
+            Assert.InRange(worstShotsToWin, bestPossibleShotsToWin, worstPossibleShotsToWin);
         }
     }
 }
