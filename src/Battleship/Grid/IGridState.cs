@@ -10,7 +10,7 @@ namespace Battleship.Grid
 
         public List<List<CoordinateState>> CoordinateStates { get; }
 
-        public List<ShotResult> ShotResults { get; }
+        public IEnumerable<IShotResult> ShotResults { get; }
 
         ShotResult Shoot(Point coordinate)
         {

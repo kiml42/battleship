@@ -1,6 +1,7 @@
 ﻿using Battleship.Grid;
 using Battleship.Placement;
 using System;
+using System.Linq;
 
 namespace Battleship
 {
@@ -14,7 +15,7 @@ namespace Battleship
             shipPlacer.TryPlaceShips(grid, 5, 4, 4, 3, 2);
             Console.WriteLine(grid);
 
-            while (grid.ShotResults.Count < 100)
+            while (grid.ShotResults.Count() < 100)
             {
                 var input = Console.ReadLine();
                 var parts = input.Split(",");

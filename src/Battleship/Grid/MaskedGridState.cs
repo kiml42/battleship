@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Battleship.Grid
 {
@@ -18,7 +19,7 @@ namespace Battleship.Grid
 
         public List<List<CoordinateState>> CoordinateStates => _grid.CoordinateStates;
 
-        public List<ShotResult> ShotResults => _grid.ShotResults;
+        public IEnumerable<IShotResult> ShotResults => _grid.ShotResults.Select(s => (IShotResult)new MaskedShotResult(s, _settings));
 
         private GridMaskSettings _settings;
 

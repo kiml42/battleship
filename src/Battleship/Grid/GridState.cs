@@ -20,7 +20,8 @@ namespace Battleship.Grid
 
         private IEnumerable<Point> AllCoordinatesWithShips => Ships.SelectMany(s => s.FullCoordinates);
 
-        public List<ShotResult> ShotResults { get; } = new List<ShotResult>();
+        private readonly List<IShotResult> _shotResults = new List<IShotResult>();
+        public IEnumerable<IShotResult> ShotResults => _shotResults;
 
         /// <summary>
         /// The current state of all the coordinates in the grid.
@@ -83,9 +84,9 @@ namespace Battleship.Grid
 
             var isSink = remaining?.Count() == 1 && remaining.Any(l => l.X == x && l.Y == y);
 
-            var result = new ShotResult(x, y, ship != null, isSink, ShotResults.Count);
+            var result = new ShotResult(x, y, ship != null, isSink, ShotResults.Count());
 
-            this.ShotResults.Add(result);
+            _shotResults.Add(result);
 
             return result;
         }
