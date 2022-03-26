@@ -7,9 +7,10 @@ namespace Battleship.Grid
     {
         private readonly GridState _grid;
 
-        public MaskedGridState(GridState grid)
+        public MaskedGridState(GridState grid, GridMaskSettings settings = default)
         {
             _grid = grid;
+            _settings = settings;
         }
 
         public override uint Width => _grid.Width;
