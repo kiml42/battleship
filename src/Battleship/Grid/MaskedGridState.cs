@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Battleship.Grid
 {
-    public class MaskedGridState : IGridState
+    public class MaskedGridState : BaseGridState
     {
         private readonly GridState _grid;
 
@@ -13,13 +12,13 @@ namespace Battleship.Grid
             _grid = grid;
         }
 
-        public uint Width => _grid.Width;
+        public override uint Width => _grid.Width;
 
-        public uint Height => _grid.Height;
+        public override uint Height => _grid.Height;
 
-        public List<List<CoordinateState>> CoordinateStates => _grid.CoordinateStates;
+        public override IEnumerable<IShotResult> ShotResults => _grid.ShotResults.Select(s => (IShotResult)new MaskedShotResult(s, _settings));
 
-        public IEnumerable<IShotResult> ShotResults => _grid.ShotResults.Select(s => (IShotResult)new MaskedShotResult(s, _settings));
+        protected override bool _showUnHitShipLocations => false;
 
         private GridMaskSettings _settings;
 
@@ -28,7 +27,7 @@ namespace Battleship.Grid
             _settings = settings;
         }
 
-        public ShotResult Shoot(uint x, uint y)
+        public override ShotResult Shoot(uint x, uint y)
         {
             return _grid.Shoot(x, y);
         }
@@ -36,6 +35,12 @@ namespace Battleship.Grid
         public override string ToString()
         {
             return _grid.ToString();
+        }
+
+        public override ShipLocation ShipAt(uint x, uint y)
+        {
+            // TODO only return the ship if the mask allows it.
+            return _grid.ShipAt(x, y);
         }
     }
 }

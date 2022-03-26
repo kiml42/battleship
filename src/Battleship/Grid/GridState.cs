@@ -5,43 +5,28 @@ using System.Text;
 
 namespace Battleship.Grid
 {
-    public class GridState : IGridState
+    public class GridState : BaseGridState
     {
-        public uint Width { get; private set; }
-        public uint Height { get; private set; }
+        private readonly uint _width;
+        public override uint Width => _width;
+
+        private readonly uint _height;
+        public override uint Height => _height;
 
         public List<ShipLocation> Ships { get; } = new List<ShipLocation>();
 
         public GridState(uint width, uint height)
         {
-            Width = width;
-            Height = height;
+            _width = width;
+            _height = height;
         }
 
         private IEnumerable<Point> AllCoordinatesWithShips => Ships.SelectMany(s => s.FullCoordinates);
 
         private readonly List<IShotResult> _shotResults = new List<IShotResult>();
-        public IEnumerable<IShotResult> ShotResults => _shotResults;
+        public override IEnumerable<IShotResult> ShotResults => _shotResults;
 
-        /// <summary>
-        /// The current state of all the coordinates in the grid.
-        /// Can be indexed with [y][x]
-        /// </summary>
-        public List<List<CoordinateState>> CoordinateStates
-        {
-            get {
-                return Enumerable.Range(0, (int)Height)
-                    .Select(rowIndex =>
-                {
-                    return Enumerable.Range(0, (int)Width)
-                    .Select(columnIndex => {
-                        var ship = ShipAt((uint)columnIndex, (uint)rowIndex);
-                        var shots = ShotResults.Where(s => s.X == columnIndex && s.Y == rowIndex);
-                        return new CoordinateState((uint)columnIndex, (uint)rowIndex, ship, shots);
-                    }).ToList();
-                }).ToList();
-            }
-        }
+        protected override bool _showUnHitShipLocations => true;
 
         public bool CanPlaceShip(uint x, uint y, uint length, Orientation orientation)
         {
@@ -58,7 +43,7 @@ namespace Battleship.Grid
             return ship;
         }
 
-        public ShipLocation ShipAt(uint x, uint y)
+        public override ShipLocation ShipAt(uint x, uint y)
         {
             var point = new Point((int)x, (int)y);
             return Ships.SingleOrDefault(s => s.FullCoordinates.Contains(point));
@@ -76,7 +61,7 @@ namespace Battleship.Grid
             return AllCoordinatesWithShips.All(p => p != newShipPart);
         }
 
-        public ShotResult Shoot(uint x, uint y)
+        public override ShotResult Shoot(uint x, uint y)
         {
             var ship = ShipAt(x, y);
 
@@ -89,23 +74,6 @@ namespace Battleship.Grid
             _shotResults.Add(result);
 
             return result;
-        }
-
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-
-            int rowLength = 0;
-            foreach (var row in CoordinateStates)
-            {
-                var cells = row.Select(coordinate => coordinate.ToString());
-                var rowString = "|" + string.Join("|", cells) + "|";
-                rowLength = rowString.Length;
-                sb.AppendLine(new string('-', rowLength));
-                sb.AppendLine(rowString);
-            }
-            sb.AppendLine(new string('-', rowLength));
-            return sb.ToString();
         }
     }
 }
