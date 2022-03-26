@@ -18,8 +18,6 @@ namespace Battleship.Grid
 
         public override IEnumerable<IShotResult> ShotResults => _grid.ShotResults.Select(s => (IShotResult)new MaskedShotResult(s, _settings));
 
-        protected override bool _showUnHitShipLocations => false;
-
         private GridMaskSettings _settings;
 
         public void ApplySettings(GridMaskSettings settings)
@@ -32,15 +30,16 @@ namespace Battleship.Grid
             return _grid.Shoot(x, y);
         }
 
-        public override string ToString()
-        {
-            return _grid.ToString();
-        }
-
         public override ShipLocation ShipAt(uint x, uint y)
         {
-            // TODO only return the ship if the mask allows it.
-            return _grid.ShipAt(x, y);
+            if (_settings.ShowLengthsOfHitShips)
+            {
+                if (ShotResults.Any(s => s.X == x && s.Y == y && s.IsHit))
+                {
+                    return _grid.ShipAt(x, y);
+                }
+            }
+            return null;
         }
     }
 }

@@ -26,8 +26,6 @@ namespace Battleship.Grid
         private readonly List<IShotResult> _shotResults = new List<IShotResult>();
         public override IEnumerable<IShotResult> ShotResults => _shotResults;
 
-        protected override bool _showUnHitShipLocations => true;
-
         public bool CanPlaceShip(uint x, uint y, uint length, Orientation orientation)
         {
             var ship = new ShipLocation(x, y, length, orientation);

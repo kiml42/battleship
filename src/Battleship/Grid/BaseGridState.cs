@@ -23,7 +23,7 @@ namespace Battleship.Grid
                         return Enumerable.Range(0, (int)Width)
                         .Select(columnIndex => {
                             var shots = ShotResults.Where(s => s.X == columnIndex && s.Y == rowIndex);
-                            var ship = _showUnHitShipLocations || shots.Any(s => s.IsHit) ? ShipAt((uint)columnIndex, (uint)rowIndex) : null;
+                            var ship = ShipAt((uint)columnIndex, (uint)rowIndex);
                             return new CoordinateState((uint)columnIndex, (uint)rowIndex, ship, shots);
                         }).ToList();
                     }).ToList();
@@ -31,8 +31,6 @@ namespace Battleship.Grid
         }
 
         public abstract IEnumerable<IShotResult> ShotResults { get; }
-
-        protected abstract bool _showUnHitShipLocations { get; }
 
         public abstract ShotResult Shoot(uint x, uint y);
 
