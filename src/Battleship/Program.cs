@@ -17,6 +17,7 @@ namespace Battleship
 
             var maskedGrid = new MaskedGridState(grid, new GridMaskSettings(true, false));
             Console.WriteLine(maskedGrid);
+            Console.WriteLine(maskedGrid.ToStringWithIndices());
 
             while (maskedGrid.ShotResults.Count() < 100)
             {
@@ -26,7 +27,7 @@ namespace Battleship
                 {
                     var result = maskedGrid.Shoot(x, y);
                     Console.WriteLine(result);
-                    Console.WriteLine(maskedGrid);
+                    Console.WriteLine(maskedGrid.ToStringWithIndices());
                 } else
                 {
                     Console.WriteLine("Invalid shot. Use \"X,Y\"");
