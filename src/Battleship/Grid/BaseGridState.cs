@@ -35,6 +35,8 @@ namespace Battleship.Grid
 
         public abstract IEnumerable<IShotResult> ShotResults { get; }
 
+        public abstract int RemainingTargetCoordinates { get; }
+
         public abstract ShotResult Shoot(uint x, uint y);
 
         public abstract ShipLocation ShipAt(uint x, uint y);

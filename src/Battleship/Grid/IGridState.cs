@@ -11,6 +11,7 @@ namespace Battleship.Grid
         public List<List<CoordinateState>> CoordinateStates { get; }
 
         public IEnumerable<IShotResult> ShotResults { get; }
+        int RemainingTargetCoordinates { get; }
 
         ShotResult Shoot(Point coordinate)
         {

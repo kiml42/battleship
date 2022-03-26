@@ -125,7 +125,6 @@ namespace Battleship.Test.Grid
         }
         #endregion
 
-
         #region ToString
         protected TGrid CreateGridForToStringTests()
         {
@@ -183,6 +182,34 @@ namespace Battleship.Test.Grid
         }
         #endregion
 
+        #region Remaining Ships
+        [Fact]
+        public void RemainingTargetCoordinates_ReturnsAllWithNoShots()
+        {
+            var grid = CreateGrid(3, 3, out var underlyingGrid);
+            underlyingGrid.TryPlaceShip(0, 0, 3, Orientation.Horizontal);
+            underlyingGrid.TryPlaceShip(0, 1, 2, Orientation.Vertical);
+
+            var result = grid.RemainingTargetCoordinates;
+
+            Assert.Equal(5, result);
+        }
+
+        [Fact]
+        public void RemainingTargetCoordinates_ReturnsFewereWithHits()
+        {
+            var grid = CreateGrid(3, 3, out var underlyingGrid);
+            underlyingGrid.TryPlaceShip(0, 0, 3, Orientation.Horizontal);
+            underlyingGrid.TryPlaceShip(0, 1, 2, Orientation.Vertical);
+            grid.Shoot(0, 0);
+            grid.Shoot(0, 1);
+            grid.Shoot(0, 2);
+
+            var result = grid.RemainingTargetCoordinates;
+
+            Assert.Equal(2, result);
+        }
+        #endregion
         protected abstract TGrid CreateGrid(uint width, uint height, out GridState underlyingGrid);
 
         /// <summary>

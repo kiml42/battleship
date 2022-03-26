@@ -19,7 +19,7 @@
 
         public override string ToString()
         {
-            var hitString = IsHit ? "Hit" : "";
+            var hitString = IsHit ? "Hit" : "Miss";
             var sinkString = IsSink == true ? " & Sink" : "";
             return $"{X},{Y} - {hitString}{sinkString}";
         }

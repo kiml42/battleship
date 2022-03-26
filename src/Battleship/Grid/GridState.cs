@@ -26,6 +26,15 @@ namespace Battleship.Grid
         private readonly List<IShotResult> _shotResults = new List<IShotResult>();
         public override IEnumerable<IShotResult> ShotResults => _shotResults;
 
+        public override int RemainingTargetCoordinates
+        {
+            get
+            {
+                var flatenedCoordinateStates = CoordinateStates.SelectMany(r => r);
+                return flatenedCoordinateStates.Count(c => c.Ship != null && !c.Shots.Any());
+            }
+        }
+
         public bool CanPlaceShip(uint x, uint y, uint length, Orientation orientation)
         {
             var ship = new ShipLocation(x, y, length, orientation);

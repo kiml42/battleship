@@ -19,6 +19,8 @@ namespace Battleship.Grid
 
         public override IEnumerable<IShotResult> ShotResults => _grid.ShotResults.Select(s => (IShotResult)new MaskedShotResult(s, _settings));
 
+        public override int RemainingTargetCoordinates => _grid.RemainingTargetCoordinates;
+
         private GridMaskSettings _settings;
 
         public void ApplySettings(GridMaskSettings settings)
