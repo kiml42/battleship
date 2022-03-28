@@ -10,6 +10,10 @@ namespace Battleship.Grid
 
         public List<List<CoordinateState>> CoordinateStates { get; }
 
+        public IEnumerable<CoordinateState> FlattenedCoordinateStates { get; }
+
+        public IEnumerable<CoordinateState> UntargetedCoordinates { get; }
+
         public IEnumerable<IShotResult> ShotResults { get; }
         int RemainingTargetCoordinates { get; }
 

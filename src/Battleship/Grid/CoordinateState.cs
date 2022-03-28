@@ -31,6 +31,5 @@ namespace Battleship.Grid
             var text = hitIndicator + shipSize + sinkIndicator;
             return text;
         }
-
     }
 }

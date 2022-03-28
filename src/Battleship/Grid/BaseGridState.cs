@@ -33,6 +33,10 @@ namespace Battleship.Grid
             }
         }
 
+        public IEnumerable<CoordinateState> FlattenedCoordinateStates => CoordinateStates.SelectMany(c => c);
+
+        public IEnumerable<CoordinateState> UntargetedCoordinates => FlattenedCoordinateStates.Where(c => !c.Shots.Any());
+
         public abstract IEnumerable<IShotResult> ShotResults { get; }
 
         public abstract int RemainingTargetCoordinates { get; }
