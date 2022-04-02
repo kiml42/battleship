@@ -13,12 +13,18 @@ namespace Battleship.Grid
 
         public IEnumerable<IShotResult> Shots {get; private set; }
 
+        /// <summary>
+        /// The result of the first shot.
+        /// </summary>
+        public IShotResult Shot {get; private set; }
+
         public CoordinateState(uint x, uint y, ShipLocation ship, IEnumerable<IShotResult> shots)
         {
             X = x;
             Y = y;
             Ship = ship;
             Shots = shots;
+            Shot = shots.FirstOrDefault();
         }
 
         public override string ToString()

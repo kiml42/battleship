@@ -21,6 +21,8 @@ namespace Battleship.Grid
 
         public override int RemainingTargetCoordinates => _grid.RemainingTargetCoordinates;
 
+        public override IEnumerable<uint> OriginalShips => _grid.OriginalShips;
+
         private GridMaskSettings _settings;
 
         public void ApplySettings(GridMaskSettings settings)

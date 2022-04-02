@@ -17,6 +17,11 @@ namespace Battleship.Grid
         public IEnumerable<IShotResult> ShotResults { get; }
         int RemainingTargetCoordinates { get; }
 
+        /// <summary>
+        /// Lengths of all the ships that have been placed on the grid.
+        /// </summary>
+        IEnumerable<uint> OriginalShips { get; }
+
         ShotResult Shoot(Point coordinate);
 
         ShotResult Shoot(uint x, uint y);

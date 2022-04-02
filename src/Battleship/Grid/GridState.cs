@@ -28,6 +28,8 @@ namespace Battleship.Grid
 
         public override int RemainingTargetCoordinates => UntargetedCoordinates.Count(c => c.Ship != null);
 
+        public override IEnumerable<uint> OriginalShips => Ships.Select(s => s.Length);
+
         public bool CanPlaceShip(uint x, uint y, uint length, Orientation orientation)
         {
             var ship = new ShipLocation(x, y, length, orientation);

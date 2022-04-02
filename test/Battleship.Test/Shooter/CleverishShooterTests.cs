@@ -2,11 +2,11 @@
 
 namespace Battleship.Test.Shooter
 {
-    public class RandomShooterTests : BaseShooterTests
+    public class CleverishShooterTests : BaseShooterTests
     {
         protected override IShooter CreateShooter()
         {
-            return new RandomShooter();
+            return new CleverishShooter();
         }
     }
 }
