@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 
@@ -40,6 +41,11 @@ namespace Battleship.Grid
         public abstract IEnumerable<IShotResult> ShotResults { get; }
 
         public abstract int RemainingTargetCoordinates { get; }
+
+        public ShotResult Shoot(Point coordinate)
+        {
+            return Shoot((uint)coordinate.X, (uint)coordinate.Y);
+        }
 
         public abstract ShotResult Shoot(uint x, uint y);
 

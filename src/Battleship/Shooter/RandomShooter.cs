@@ -17,7 +17,9 @@ namespace Battleship.Shooter
                 validTargets = grid.FlattenedCoordinateStates;
             }
 
-            var coordinate = validTargets.OrderBy(_ => _random.NextDouble()).First();
+            var index = _random.Next(0, validTargets.Count());
+
+            var coordinate = validTargets.Skip(index).First();
 
             return new Point((int)coordinate.X, (int)coordinate.Y);
         }

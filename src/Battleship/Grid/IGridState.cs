@@ -17,11 +17,7 @@ namespace Battleship.Grid
         public IEnumerable<IShotResult> ShotResults { get; }
         int RemainingTargetCoordinates { get; }
 
-        ShotResult Shoot(Point coordinate)
-        {
-            // TODO test this
-            return Shoot((uint)coordinate.X, (uint)coordinate.Y);
-        }
+        ShotResult Shoot(Point coordinate);
 
         ShotResult Shoot(uint x, uint y);
     }

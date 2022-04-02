@@ -39,18 +39,32 @@ namespace Battleship.Test.Shooter
             var grid = new GridState(width, height);
             var shooter = new RandomShooter();
 
-            var targets = Enumerable.Range(0, (int)width * (int)height * 10).Select(_ => shooter.PickTarget(grid));
+            var expectedMaxX = (int)width - 1;
+            var expectedMaxY = (int)height - 1;
 
-            var minX = targets.Min(t => t.X);
-            var minY = targets.Min(t => t.Y);
-            var maxX = targets.Max(t => t.X);
-            var maxY = targets.Max(t => t.Y);
+            int? minX = null;
+            int? minY = null;
+            int? maxX = null;
+            int? maxY = null;
+            for (int i = 0; i < grid.FlattenedCoordinateStates.Count(); i++)
+            {
+                var target = shooter.PickTarget(grid);
+                grid.Shoot(target); // shoot at the coordinate so it doesn't get picked again.
+
+                minX = Math.Min(target.X, minX ?? target.X);
+                minY = Math.Min(target.Y, minY ?? target.Y);
+                maxX = Math.Max(target.X, maxX ?? target.X);
+                maxY = Math.Max(target.Y, maxY ?? target.Y);
+
+                if (minX == 0 && minY == 0 && maxX == expectedMaxX && maxY == expectedMaxY)
+                    break;
+            }
 
             Assert.Equal(0, minX);
             Assert.Equal(0, minY);
 
-            Assert.Equal((int)width - 1, maxX);
-            Assert.Equal((int)height - 1, maxY);
+            Assert.Equal(expectedMaxX, maxX);
+            Assert.Equal(expectedMaxY, maxY);
         }
 
         [Fact]
