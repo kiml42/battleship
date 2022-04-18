@@ -5,8 +5,8 @@ namespace Battleship.Grid
 {
     public interface IGridState
     {
-        uint Width { get; }
-        uint Height { get; }
+        int Width { get; }
+        int Height { get; }
 
         public List<List<CoordinateState>> CoordinateStates { get; }
 
@@ -20,10 +20,10 @@ namespace Battleship.Grid
         /// <summary>
         /// Lengths of all the ships that have been placed on the grid.
         /// </summary>
-        IEnumerable<uint> OriginalShips { get; }
+        IEnumerable<int> OriginalShips { get; }
 
         ShotResult Shoot(Point coordinate);
 
-        ShotResult Shoot(uint x, uint y);
+        ShotResult Shoot(int x, int y);
     }
 }

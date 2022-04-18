@@ -27,7 +27,7 @@ namespace Battleship.Shooter
             var maxPossibleConfigurations = (shortestShip - 1) * 4;
 
             CoordinateState bestCoordinate = validTargets.First();
-            uint bestNumberOfConfigurations = 0;
+            int bestNumberOfConfigurations = 0;
             foreach (var coordinate in validTargets)
             {
                 var numberOfConfigurationsForCoordinate = GetNumberOfConfigurations(coordinate, shortestShip, grid);
@@ -39,10 +39,10 @@ namespace Battleship.Shooter
                 if (bestNumberOfConfigurations == maxPossibleConfigurations) break;
             }
 
-            return new Point((int)bestCoordinate.X, (int)bestCoordinate.Y);
+            return new Point(bestCoordinate.X, bestCoordinate.Y);
         }
 
-        private static uint GetNumberOfConfigurations(CoordinateState coordinate, uint shipLength, IGridState grid)
+        private static int GetNumberOfConfigurations(CoordinateState coordinate, int shipLength, IGridState grid)
         {
             var distanceFromCoordinate = shipLength - 1;
 
@@ -52,7 +52,7 @@ namespace Battleship.Shooter
                 if (deltaX > coordinate.X) break;
                 var x = coordinate.X - deltaX;
 
-                var otherCoordinateoordintate = grid.CoordinateStates[(int)coordinate.Y][(int)x];
+                var otherCoordinateoordintate = grid.CoordinateStates[coordinate.Y][x];
                 if (otherCoordinateoordintate.Shot != null && (!otherCoordinateoordintate.Shot.IsHit || otherCoordinateoordintate.Shot.IsSink == true))
                     break;
                 distanceToTheLeft = deltaX;
@@ -64,7 +64,7 @@ namespace Battleship.Shooter
                 var x = coordinate.X + deltaX;
                 if (x >= grid.Width) break;
 
-                var otherCoordinateoordintate = grid.CoordinateStates[(int)coordinate.Y][(int)x];
+                var otherCoordinateoordintate = grid.CoordinateStates[coordinate.Y][x];
                 if (otherCoordinateoordintate.Shot != null && (!otherCoordinateoordintate.Shot.IsHit || otherCoordinateoordintate.Shot.IsSink == true))
                     break;
                 distanceToTheLeft = deltaX;
@@ -78,22 +78,22 @@ namespace Battleship.Shooter
 
             var coordintaesToConsider = new List<CoordinateState>();
 
-            for (uint x = minX; x <= maxX; x++)
+            for (int x = minX; x <= maxX; x++)
             {
                 if (x == coordinate.X) continue;
-                var otherCoordinate = grid.CoordinateStates[(int)coordinate.Y][(int)x];
+                var otherCoordinate = grid.CoordinateStates[coordinate.Y][x];
                 coordintaesToConsider.Add(otherCoordinate);
             }
 
-            for (uint y = minY; y <= maxY; y++)
+            for (int y = minY; y <= maxY; y++)
             {
                 if (y == coordinate.Y) continue;
-                var otherCoordinate = grid.CoordinateStates[(int)y][(int)coordinate.X];
+                var otherCoordinate = grid.CoordinateStates[y][coordinate.X];
                 coordintaesToConsider.Add(otherCoordinate);
             }
 
             // count all the considered coordinates that either haven't been shot at yet, or are a hit but not a sink.
-            return (uint)coordintaesToConsider.Count(c => c.Shot == null || (c.Shot.IsHit && c.Shot.IsSink != true));
+            return coordintaesToConsider.Count(c => c.Shot == null || (c.Shot.IsHit && c.Shot.IsSink != true));
         }
     }
 }

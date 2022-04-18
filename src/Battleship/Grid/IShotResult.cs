@@ -2,8 +2,8 @@
 {
     public interface IShotResult
     {
-        public uint X { get; }
-        public uint Y { get; }
+        public int X { get; }
+        public int Y { get; }
         public bool IsHit { get; }
         public bool? IsSink { get; }
         public int Index { get; }

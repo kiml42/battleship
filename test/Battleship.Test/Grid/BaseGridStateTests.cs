@@ -17,8 +17,8 @@ namespace Battleship.Test.Grid
 
             var resut = grid.Shoot(0,2);
 
-            Assert.Equal(0, (int)resut.X);
-            Assert.Equal(2, (int)resut.Y);
+            Assert.Equal(0, resut.X);
+            Assert.Equal(2, resut.Y);
             Assert.False(resut.IsHit);
             Assert.Equal(0, resut.Index);
 
@@ -34,8 +34,8 @@ namespace Battleship.Test.Grid
 
             var resut = grid.Shoot(0,2);
 
-            Assert.Equal(0, (int)resut.X);
-            Assert.Equal(2, (int)resut.Y);
+            Assert.Equal(0, resut.X);
+            Assert.Equal(2, resut.Y);
             Assert.True(resut.IsHit);
             Assert.False(resut.IsSink);
             Assert.Equal(0, resut.Index);
@@ -53,8 +53,8 @@ namespace Battleship.Test.Grid
             grid.Shoot(0,2);
             var resut = grid.Shoot(0,2);
 
-            Assert.Equal(0, (int)resut.X);
-            Assert.Equal(2, (int)resut.Y);
+            Assert.Equal(0, resut.X);
+            Assert.Equal(2, resut.Y);
             Assert.True(resut.IsHit);
             Assert.False(resut.IsSink);
             Assert.Equal(1, resut.Index);
@@ -73,8 +73,8 @@ namespace Battleship.Test.Grid
             grid.Shoot(0,1);
             var resut = grid.Shoot(0,2);
 
-            Assert.Equal(0, (int)resut.X);
-            Assert.Equal(2, (int)resut.Y);
+            Assert.Equal(0, resut.X);
+            Assert.Equal(2, resut.Y);
             Assert.True(resut.IsHit);
             Assert.True(resut.IsSink);
             Assert.Equal(2, resut.Index);
@@ -93,8 +93,8 @@ namespace Battleship.Test.Grid
             grid.Shoot(0,2);
             var resut = grid.Shoot(0,1);
 
-            Assert.Equal(0, (int)resut.X);
-            Assert.Equal(1, (int)resut.Y);
+            Assert.Equal(0, resut.X);
+            Assert.Equal(1, resut.Y);
             Assert.True(resut.IsHit);
             Assert.True(resut.IsSink);
             Assert.Equal(2, resut.Index);
@@ -110,18 +110,18 @@ namespace Battleship.Test.Grid
         [InlineData(10,10)]
         [InlineData(2,10)]
         [InlineData(10,2)]
-        public virtual void CoordinateStates_ReturnsExpectedCount(uint width, uint height)
+        public virtual void CoordinateStates_ReturnsExpectedCount(int width, int height)
         {
             var grid = CreateGrid(width, height, out var underlyingGrid);
 
             var result = grid.CoordinateStates;
 
-            Assert.Equal((int)height, result.Count);
+            Assert.Equal(height, result.Count);
             Assert.All(result, row =>
             {
-                Assert.Equal((int)width, row.Count);
+                Assert.Equal(width, row.Count);
             });
-            Assert.Equal((int)width * (int)height, result.Sum(row => row.Count));
+            Assert.Equal(width * height, result.Sum(row => row.Count));
         }
         #endregion
 
@@ -210,7 +210,7 @@ namespace Battleship.Test.Grid
             Assert.Equal(2, result);
         }
         #endregion
-        protected abstract TGrid CreateGrid(uint width, uint height, out GridState underlyingGrid);
+        protected abstract TGrid CreateGrid(int width, int height, out GridState underlyingGrid);
 
         /// <summary>
         /// 
@@ -230,6 +230,8 @@ namespace Battleship.Test.Grid
             //Starts off grid
             yield return new object[] { false, 10, 5, 4, Orientation.Horizontal };
             yield return new object[] { false, 5, 10, 4, Orientation.Horizontal };
+            yield return new object[] { false, -1, 5, 4, Orientation.Horizontal };
+            yield return new object[] { false, 5, -1, 4, Orientation.Horizontal };
 
             //Starts in grid, but goes off
             yield return new object[] { false, 8, 8, 4, Orientation.Vertical };

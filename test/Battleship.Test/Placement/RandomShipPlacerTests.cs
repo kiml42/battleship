@@ -11,7 +11,7 @@ namespace Battleship.Test.Placement
         [Fact]
         public void TryPlaceShips_PlacesExpectedShips()
         {
-            var sizesToPlace = new uint[] { 2, 3, 4, 4, 5 };
+            var sizesToPlace = new int[] { 2, 3, 4, 4, 5 };
 
             var totalHorizontalCount = 0;
             var totalVerticalCount = 0;
@@ -51,7 +51,7 @@ namespace Battleship.Test.Placement
         [Fact]
         public void TryPlaceShips_ReturnsFalseWithAnyShipsThatDontFIt()
         {
-            var sizesToPlace = new uint[] { 11 };
+            var sizesToPlace = new int[] { 11 };
 
             var grid = new GridState(10, 10);
 
@@ -67,7 +67,7 @@ namespace Battleship.Test.Placement
         [Fact]
         public void TryPlaceShips_ReturnsFalseIfItCantFitAllTheShips()
         {
-            var sizesToPlace = new uint[] { 2, 3, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, };
+            var sizesToPlace = new int[] { 2, 3, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, };
 
             var grid = new GridState(10, 10);
 

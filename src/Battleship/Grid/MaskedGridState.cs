@@ -13,15 +13,15 @@ namespace Battleship.Grid
             _settings = settings;
         }
 
-        public override uint Width => _grid.Width;
+        public override int Width => _grid.Width;
 
-        public override uint Height => _grid.Height;
+        public override int Height => _grid.Height;
 
         public override IEnumerable<IShotResult> ShotResults => _grid.ShotResults.Select(s => (IShotResult)new MaskedShotResult(s, _settings));
 
         public override int RemainingTargetCoordinates => _grid.RemainingTargetCoordinates;
 
-        public override IEnumerable<uint> OriginalShips => _grid.OriginalShips;
+        public override IEnumerable<int> OriginalShips => _grid.OriginalShips;
 
         private GridMaskSettings _settings;
 
@@ -30,12 +30,12 @@ namespace Battleship.Grid
             _settings = settings;
         }
 
-        public override ShotResult Shoot(uint x, uint y)
+        public override ShotResult Shoot(int x, int y)
         {
             return _grid.Shoot(x, y);
         }
 
-        public override ShipLocation ShipAt(uint x, uint y)
+        public override ShipLocation ShipAt(int x, int y)
         {
             if (_settings.ShowLengthsOfHitShips)
             {

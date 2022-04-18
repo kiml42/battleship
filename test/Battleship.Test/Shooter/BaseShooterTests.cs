@@ -34,13 +34,13 @@ namespace Battleship.Test.Shooter
         [InlineData(10,2)]
         [InlineData(2,10)]
         [InlineData(20, 20)]
-        public void PickTarget_PicksTargetAtEdgesSomeTimes(uint width, uint height)
+        public void PickTarget_PicksTargetAtEdgesSomeTimes(int width, int height)
         {
             var grid = new GridState(width, height);
             var shooter = CreateShooter();
 
-            var expectedMaxX = (int)width - 1;
-            var expectedMaxY = (int)height - 1;
+            var expectedMaxX = width - 1;
+            var expectedMaxY = height - 1;
 
             int? minX = null;
             int? minY = null;
@@ -91,7 +91,7 @@ namespace Battleship.Test.Shooter
         public void EventuallyWins()
         {
             var shotsToWin = new List<int>();
-            var shipsToPlace = new uint[]{ 5, 4, 4, 3, 2 };
+            var shipsToPlace = new int[]{ 5, 4, 4, 3, 2 };
 
             var worstPossibleShotsToWin = GRID_WIDTH * GRID_HEIGHT;
             for (int j = 0; j < 1000; j++)
@@ -115,7 +115,7 @@ namespace Battleship.Test.Shooter
                 Assert.Equal(0, grid.RemainingTargetCoordinates);
             }
 
-            var bestPossibleShotsToWin = shipsToPlace.Sum(s => (int)s);
+            var bestPossibleShotsToWin = shipsToPlace.Sum(s => s);
 
             var bestShotsToWin = shotsToWin.Min();
             var averageShotsToWin = shotsToWin.Average();

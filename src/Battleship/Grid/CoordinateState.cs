@@ -5,9 +5,9 @@ namespace Battleship.Grid
 {
     public struct CoordinateState
     {
-        public uint X { get; private set; }
+        public int X { get; private set; }
 
-        public uint Y { get; private set; }
+        public int Y { get; private set; }
 
         public ShipLocation Ship {get; private set; }
 
@@ -18,7 +18,7 @@ namespace Battleship.Grid
         /// </summary>
         public IShotResult Shot {get; private set; }
 
-        public CoordinateState(uint x, uint y, ShipLocation ship, IEnumerable<IShotResult> shots)
+        public CoordinateState(int x, int y, ShipLocation ship, IEnumerable<IShotResult> shots)
         {
             X = x;
             Y = y;

@@ -39,8 +39,8 @@ namespace Battleship
                         break;
                     default:
                         var parts = input.Split(",");
-                        if (parts.Length == 2 && uint.TryParse(parts[0], out var x) && uint.TryParse(parts[1], out var y))
-                            target = new Point((int)x, (int)y);
+                        if (parts.Length == 2 && int.TryParse(parts[0], out var x) && int.TryParse(parts[1], out var y))
+                            target = new Point(x, y);
                         break;
                 }
 

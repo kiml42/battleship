@@ -4,6 +4,6 @@ namespace Battleship.Placement
 {
     public interface IShipPlacer
     {
-        bool TryPlaceShips(GridState grid, params uint[] shipLengths);
+        bool TryPlaceShips(GridState grid, params int[] shipLengths);
     }
 }

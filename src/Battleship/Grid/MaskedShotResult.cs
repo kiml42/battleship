@@ -2,8 +2,8 @@
 {
     public class MaskedShotResult : IShotResult
     {
-        public uint X => _shot.X;
-        public uint Y => _shot.Y;
+        public int X => _shot.X;
+        public int Y => _shot.Y;
         public bool IsHit => _shot.IsHit;
         public bool? IsSink => _settings.ShowSinks ? _shot.IsSink : null;
         public int Index => _shot.Index;

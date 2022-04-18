@@ -7,15 +7,15 @@ namespace Battleship.Grid
 {
     public class GridState : BaseGridState
     {
-        private readonly uint _width;
-        public override uint Width => _width;
+        private readonly int _width;
+        public override int Width => _width;
 
-        private readonly uint _height;
-        public override uint Height => _height;
+        private readonly int _height;
+        public override int Height => _height;
 
         public List<ShipLocation> Ships { get; } = new List<ShipLocation>();
 
-        public GridState(uint width, uint height)
+        public GridState(int width, int height)
         {
             _width = width;
             _height = height;
@@ -28,15 +28,15 @@ namespace Battleship.Grid
 
         public override int RemainingTargetCoordinates => UntargetedCoordinates.Count(c => c.Ship != null);
 
-        public override IEnumerable<uint> OriginalShips => Ships.Select(s => s.Length);
+        public override IEnumerable<int> OriginalShips => Ships.Select(s => s.Length);
 
-        public bool CanPlaceShip(uint x, uint y, uint length, Orientation orientation)
+        public bool CanPlaceShip(int x, int y, int length, Orientation orientation)
         {
             var ship = new ShipLocation(x, y, length, orientation);
             return CanPlaceShip(ship);
         }
 
-        public ShipLocation TryPlaceShip(uint x, uint y, uint length, Orientation orientation)
+        public ShipLocation TryPlaceShip(int x, int y, int length, Orientation orientation)
         {
             var ship = new ShipLocation(x, y, length, orientation);
             if (!CanPlaceShip(ship))
@@ -45,9 +45,9 @@ namespace Battleship.Grid
             return ship;
         }
 
-        public override ShipLocation ShipAt(uint x, uint y)
+        public override ShipLocation ShipAt(int x, int y)
         {
-            var point = new Point((int)x, (int)y);
+            var point = new Point(x, y);
             return Ships.SingleOrDefault(s => s.FullCoordinates.Contains(point));
         }
 
@@ -63,7 +63,7 @@ namespace Battleship.Grid
             return AllCoordinatesWithShips.All(p => p != newShipPart);
         }
 
-        public override ShotResult Shoot(uint x, uint y)
+        public override ShotResult Shoot(int x, int y)
         {
             var ship = ShipAt(x, y);
 

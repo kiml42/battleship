@@ -21,7 +21,7 @@ namespace Battleship.Shooter
 
             var coordinate = validTargets.Skip(index).First();
 
-            return new Point((int)coordinate.X, (int)coordinate.Y);
+            return new Point(coordinate.X, coordinate.Y);
         }
     }
 }

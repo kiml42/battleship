@@ -10,8 +10,8 @@ namespace Battleship.Grid
     {
         private const string ColumnSeparator = "|";
 
-        public abstract uint Width { get; }
-        public abstract uint Height { get; }
+        public abstract int Width { get; }
+        public abstract int Height { get; }
 
         /// <summary>
         /// The current state of all the coordinates in the grid.
@@ -21,14 +21,14 @@ namespace Battleship.Grid
         {
             get
             {
-                return Enumerable.Range(0, (int)Height)
+                return Enumerable.Range(0, Height)
                     .Select(rowIndex =>
                     {
-                        return Enumerable.Range(0, (int)Width)
+                        return Enumerable.Range(0, Width)
                         .Select(columnIndex => {
                             var shots = ShotResults.Where(s => s.X == columnIndex && s.Y == rowIndex);
-                            var ship = ShipAt((uint)columnIndex, (uint)rowIndex);
-                            return new CoordinateState((uint)columnIndex, (uint)rowIndex, ship, shots);
+                            var ship = ShipAt(columnIndex, rowIndex);
+                            return new CoordinateState(columnIndex, rowIndex, ship, shots);
                         }).ToList();
                     }).ToList();
             }
@@ -41,16 +41,16 @@ namespace Battleship.Grid
         public abstract IEnumerable<IShotResult> ShotResults { get; }
 
         public abstract int RemainingTargetCoordinates { get; }
-        public abstract IEnumerable<uint> OriginalShips { get; }
+        public abstract IEnumerable<int> OriginalShips { get; }
 
         public ShotResult Shoot(Point coordinate)
         {
-            return Shoot((uint)coordinate.X, (uint)coordinate.Y);
+            return Shoot(coordinate.X, coordinate.Y);
         }
 
-        public abstract ShotResult Shoot(uint x, uint y);
+        public abstract ShotResult Shoot(int x, int y);
 
-        public abstract ShipLocation ShipAt(uint x, uint y);
+        public abstract ShipLocation ShipAt(int x, int y);
 
         public override string ToString()
         {
@@ -79,10 +79,10 @@ namespace Battleship.Grid
             var cells = rows[1].Split(ColumnSeparator);
             var cellLength = cells.Max(c => c.Length);
 
-            var columnNumbers = Enumerable.Range(0, (int)Width).Select(c => c.ToString().PadLeft(2).PadRight(cellLength));
+            var columnNumbers = Enumerable.Range(0, Width).Select(c => c.ToString().PadLeft(2).PadRight(cellLength));
             var columnHeadersString = ColumnSeparator + string.Join(" ", columnNumbers) + ColumnSeparator;
 
-            var rowNumbers = Enumerable.Range(0, (int)Height).Select(r => r.ToString());
+            var rowNumbers = Enumerable.Range(0, Height).Select(r => r.ToString());
             var maxRowNumberWidth = rowNumbers.Max(r => r.Length);
             rowNumbers = rowNumbers.Select(r => r.PadLeft(maxRowNumberWidth));
 

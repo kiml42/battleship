@@ -12,7 +12,7 @@ namespace Battleship.Test.Grid
         #region CanPlaceShip
         [Theory]
         [MemberData(nameof(GetGridPositions))]
-        public void CanPlaceShip(bool expected, uint x, uint y, uint length, Orientation orientation)
+        public void CanPlaceShip(bool expected, int x, int y, int length, Orientation orientation)
         {
             var grid = CreateGrid(10, 10, out _);
 
@@ -25,7 +25,7 @@ namespace Battleship.Test.Grid
         #region TryPlaceShip
         [Theory]
         [MemberData(nameof(GetGridPositions))]
-        public void TryPlaceShip_InEmptyGrid(bool expected, uint x, uint y, uint length, Orientation orientation)
+        public void TryPlaceShip_InEmptyGrid(bool expected, int x, int y, int length, Orientation orientation)
         {
             var grid = CreateGrid(10, 10, out _);
 
@@ -63,8 +63,8 @@ namespace Battleship.Test.Grid
         [InlineData(false, 5, 5, 4, Orientation.Horizontal, 6, 4, 4, Orientation.Vertical)]
         public void TryPlaceShip_WithExistingShip(
             bool canPlaceShip2,
-            uint x1, uint y1, uint length1, Orientation direction1,
-            uint x2, uint y2, uint length2, Orientation direction2)
+            int x1, int y1, int length1, Orientation direction1,
+            int x2, int y2, int length2, Orientation direction2)
         {
             var grid = CreateGrid(10, 10, out _);
 
@@ -118,7 +118,7 @@ namespace Battleship.Test.Grid
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public void ShipAt_returnsTheShipAtTheLocation(uint x)
+        public void ShipAt_returnsTheShipAtTheLocation(int x)
         {
             var grid = CreateGrid(10, 10, out _);
 
@@ -139,18 +139,18 @@ namespace Battleship.Test.Grid
         [InlineData(10,10)]
         [InlineData(2,10)]
         [InlineData(10,2)]
-        public override void CoordinateStates_ReturnsExpectedCount(uint width, uint height)
+        public override void CoordinateStates_ReturnsExpectedCount(int width, int height)
         {
             var grid = CreateGrid(width, height, out _);
 
             var result = grid.CoordinateStates;
 
-            Assert.Equal((int)height, result.Count);
+            Assert.Equal(height, result.Count);
             Assert.All(result, row =>
             {
-                Assert.Equal((int)width, row.Count);
+                Assert.Equal(width, row.Count);
             });
-            Assert.Equal((int)width * (int)height, result.Sum(row => row.Count));
+            Assert.Equal(width * height, result.Sum(row => row.Count));
         }
         #endregion
 
@@ -166,7 +166,7 @@ namespace Battleship.Test.Grid
         }
         #endregion
 
-        protected override GridState CreateGrid(uint width, uint height, out GridState underlyingGrid)
+        protected override GridState CreateGrid(int width, int height, out GridState underlyingGrid)
         {
             underlyingGrid = new GridState(width, height);
             return underlyingGrid;

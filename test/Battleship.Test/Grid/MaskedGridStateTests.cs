@@ -80,7 +80,7 @@ namespace Battleship.Test.Grid
         }
         #endregion
 
-        protected override MaskedGridState CreateGrid(uint width, uint height, out GridState underlyingGrid)
+        protected override MaskedGridState CreateGrid(int width, int height, out GridState underlyingGrid)
         {
             underlyingGrid = new GridState(width, height);
             var masked = new MaskedGridState(underlyingGrid);
