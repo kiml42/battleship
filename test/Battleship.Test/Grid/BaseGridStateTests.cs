@@ -13,7 +13,7 @@ namespace Battleship.Test.Grid
         [Fact]
         public void Shoot_ReturnsMiss()
         {
-            var grid = CreateGrid(10, 10, out var underlyingGrid);
+            var grid = CreateGrid(10, 10, out _);
 
             var resut = grid.Shoot(0,2);
 

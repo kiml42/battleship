@@ -58,7 +58,7 @@ namespace Battleship.Grid
 
         private bool CanPlacePartOfShip(Point newShipPart)
         {
-            if (newShipPart.X >= Width || newShipPart.Y >= Height)
+            if (newShipPart.X < 0 || newShipPart.Y < 0 || newShipPart.X >= Width || newShipPart.Y >= Height)
                 return false;
             return AllCoordinatesWithShips.All(p => p != newShipPart);
         }
