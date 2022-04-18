@@ -17,22 +17,7 @@ namespace Battleship.Grid
         /// The current state of all the coordinates in the grid.
         /// Can be indexed with [y][x]
         /// </summary>
-        public List<List<CoordinateState>> CoordinateStates
-        {
-            get
-            {
-                return Enumerable.Range(0, Height)
-                    .Select(rowIndex =>
-                    {
-                        return Enumerable.Range(0, Width)
-                        .Select(columnIndex => {
-                            var shots = ShotResults.Where(s => s.X == columnIndex && s.Y == rowIndex);
-                            var ship = ShipAt(columnIndex, rowIndex);
-                            return new CoordinateState(columnIndex, rowIndex, ship, shots);
-                        }).ToList();
-                    }).ToList();
-            }
-        }
+        public abstract CoordinateState[][] CoordinateStates { get; }
 
         public IEnumerable<CoordinateState> FlattenedCoordinateStates => CoordinateStates.SelectMany(c => c);
 
@@ -42,6 +27,11 @@ namespace Battleship.Grid
 
         public abstract int RemainingTargetCoordinates { get; }
         public abstract IEnumerable<int> OriginalShips { get; }
+
+        public BaseGridState()
+        {
+
+        }
 
         public ShotResult Shoot(Point coordinate)
         {

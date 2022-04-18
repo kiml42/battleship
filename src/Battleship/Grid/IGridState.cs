@@ -8,7 +8,7 @@ namespace Battleship.Grid
         int Width { get; }
         int Height { get; }
 
-        public List<List<CoordinateState>> CoordinateStates { get; }
+        public CoordinateState[][] CoordinateStates { get; }
 
         public IEnumerable<CoordinateState> FlattenedCoordinateStates { get; }
 

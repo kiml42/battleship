@@ -14,11 +14,31 @@ namespace Battleship.Grid
         public override int Height => _height;
 
         public List<ShipLocation> Ships { get; } = new List<ShipLocation>();
+        private readonly CoordinateState[][] _coordinateStates;
+
+        /// <inheritdoc/>
+        public override CoordinateState[][] CoordinateStates
+        {
+            get
+            {
+                return _coordinateStates.Select(row => row.Select(c => c.Clone()).ToArray()).ToArray();
+            }
+        }
 
         public GridState(int width, int height)
         {
             _width = width;
             _height = height;
+
+            _coordinateStates = Enumerable.Range(0, Height)
+                    .Select(rowIndex =>
+                    {
+                        return Enumerable.Range(0, Width)
+                        .Select(columnIndex =>
+                        {
+                            return new CoordinateState(columnIndex, rowIndex, null, null);
+                        }).ToArray();
+                    }).ToArray();
         }
 
         private IEnumerable<Point> AllCoordinatesWithShips => Ships.SelectMany(s => s.FullCoordinates);
@@ -42,6 +62,13 @@ namespace Battleship.Grid
             if (!CanPlaceShip(ship))
                 return null;
             Ships.Add(ship);
+
+            foreach (var location in ship.FullCoordinates)
+            {
+                var coordinateState = _coordinateStates[location.Y][location.X];
+                coordinateState.Ship = ship;
+            }
+
             return ship;
         }
 

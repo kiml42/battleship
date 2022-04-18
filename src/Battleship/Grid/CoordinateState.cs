@@ -3,28 +3,45 @@ using System.Linq;
 
 namespace Battleship.Grid
 {
-    public struct CoordinateState
+    public class CoordinateState
     {
         public int X { get; private set; }
 
         public int Y { get; private set; }
 
-        public ShipLocation Ship {get; private set; }
+        public ShipLocation Ship {get; set; }
 
-        public IEnumerable<IShotResult> Shots {get; private set; }
+        private List<IShotResult> _shots;
+
+        public IEnumerable<IShotResult> Shots => _shots;
 
         /// <summary>
         /// The result of the first shot.
         /// </summary>
-        public IShotResult Shot {get; private set; }
+        public IShotResult Shot => Shots.FirstOrDefault();
 
-        public CoordinateState(int x, int y, ShipLocation ship, IEnumerable<IShotResult> shots)
+        public CoordinateState(int x, int y)
+        {
+            X = x;
+            Y = y;
+            _shots = new List<IShotResult>();
+        }
+
+        public CoordinateState(int x, int y, ShipLocation ship, IEnumerable<IShotResult> Shots)
         {
             X = x;
             Y = y;
             Ship = ship;
-            Shots = shots;
-            Shot = shots.FirstOrDefault();
+            _shots = Shots.ToList();
+        }
+
+        /// <summary>
+        /// Creates a copy to be read from without being able to affect the state of teh original.
+        /// </summary>
+        /// <returns></returns>
+        public CoordinateState Clone()
+        {
+            return new CoordinateState(X, Y, Ship, Shots);
         }
 
         public override string ToString()
