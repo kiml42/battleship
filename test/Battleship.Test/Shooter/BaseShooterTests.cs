@@ -33,7 +33,7 @@ namespace Battleship.Test.Shooter
         [InlineData(10,10)]
         [InlineData(10,2)]
         [InlineData(2,10)]
-        [InlineData(100, 100)]
+        [InlineData(20, 20)]
         public void PickTarget_PicksTargetAtEdgesSomeTimes(uint width, uint height)
         {
             var grid = new GridState(width, height);
