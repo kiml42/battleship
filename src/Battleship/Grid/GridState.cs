@@ -36,15 +36,14 @@ namespace Battleship.Grid
                         return Enumerable.Range(0, Width)
                         .Select(columnIndex =>
                         {
-                            return new CoordinateState(columnIndex, rowIndex, null, null);
+                            return new CoordinateState(columnIndex, rowIndex);
                         }).ToArray();
                     }).ToArray();
         }
 
         private IEnumerable<Point> AllCoordinatesWithShips => Ships.SelectMany(s => s.FullCoordinates);
 
-        private readonly List<IShotResult> _shotResults = new();
-        public override IEnumerable<IShotResult> ShotResults => _shotResults;
+        public override IEnumerable<IShotResult> ShotResults => FlattenedCoordinateStates.SelectMany(c => c.Shots);
 
         public override int RemainingTargetCoordinates => UntargetedCoordinates.Count(c => c.Ship != null);
 
@@ -92,7 +91,9 @@ namespace Battleship.Grid
 
         public override ShotResult Shoot(int x, int y)
         {
-            var ship = ShipAt(x, y);
+            var coordinate = _coordinateStates[y][x];
+
+            var ship = coordinate.Ship;
 
             var remaining = ship?.FullCoordinates.Where(l => !ShotResults.Any(s => s.X == l.X && s.Y == l.Y));
 
@@ -100,7 +101,7 @@ namespace Battleship.Grid
 
             var result = new ShotResult(x, y, ship != null, isSink, ShotResults.Count());
 
-            _shotResults.Add(result);
+            coordinate.AddShot(result);
 
             return result;
         }

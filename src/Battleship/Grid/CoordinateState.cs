@@ -11,7 +11,7 @@ namespace Battleship.Grid
 
         public ShipLocation Ship {get; set; }
 
-        private List<IShotResult> _shots;
+        private readonly List<IShotResult> _shots;
 
         public IEnumerable<IShotResult> Shots => _shots;
 
@@ -41,7 +41,7 @@ namespace Battleship.Grid
         /// <returns></returns>
         public CoordinateState Clone()
         {
-            return new CoordinateState(X, Y, Ship, Shots);
+            return new CoordinateState(X, Y, Ship, _shots);
         }
 
         public override string ToString()
@@ -53,6 +53,11 @@ namespace Battleship.Grid
             var sinkIndicator = Shots.Any(s => s.IsSink == true) ? "S" : " ";
             var text = hitIndicator + shipSize + sinkIndicator;
             return text;
+        }
+
+        internal void AddShot(ShotResult result)
+        {
+            _shots.Add(result);
         }
     }
 }

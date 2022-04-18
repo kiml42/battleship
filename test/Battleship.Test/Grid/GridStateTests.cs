@@ -145,12 +145,12 @@ namespace Battleship.Test.Grid
 
             var result = grid.CoordinateStates;
 
-            Assert.Equal(height, result.Count);
+            Assert.Equal(height, result.Length);
             Assert.All(result, row =>
             {
-                Assert.Equal(width, row.Count);
+                Assert.Equal(width, row.Length);
             });
-            Assert.Equal(width * height, result.Sum(row => row.Count));
+            Assert.Equal(width * height, result.Sum(row => row.Length));
         }
         #endregion
 
