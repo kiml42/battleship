@@ -9,6 +9,7 @@
 
         public bool ShowLengthsOfAllShips => _shipLengthIndicationSetting == ShipLengthIndicationSetting.All;
         public bool ShowLengthsOfHitShips => _shipLengthIndicationSetting == ShipLengthIndicationSetting.Hit || ShowLengthsOfAllShips;
+        public bool ShowLengthsOfShipsWhenSunk => _shipLengthIndicationSetting == ShipLengthIndicationSetting.Sink || _shipLengthIndicationSetting == ShipLengthIndicationSetting.Hit || ShowLengthsOfAllShips;
 
         private readonly ShipLengthIndicationSetting _shipLengthIndicationSetting;
 
@@ -22,9 +23,10 @@
 
         public enum ShipLengthIndicationSetting
         {
-            None = 0,
-            Hit = 1,
-            All = 2
+            None,
+            Hit,
+            Sink,
+            All 
         }
     }
 }

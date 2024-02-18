@@ -48,7 +48,21 @@ namespace Battleship.Test.Grid
         }
 
         [Fact]
-        public void ToString_includesExpectedDetails_JustLengths()
+        public void ToString_includesExpectedDetails_JustSinks_LengthsForSinks()
+        {
+            var grid = CreateGridForToStringTests();
+
+            var settings = new GridMaskSettings(true, GridMaskSettings.ShipLengthIndicationSetting.Sink);
+
+            grid.ApplySettings(settings);
+
+            var result = grid.ToString();
+
+            StandardToStringAssertions(result, "   ", "X  ", "X2S");
+        }
+
+        [Fact]
+        public void ToString_includesExpectedDetails_Lengths_NotSinks()
         {
             var grid = CreateGridForToStringTests();
 
@@ -62,7 +76,7 @@ namespace Battleship.Test.Grid
         }
 
         [Fact]
-        public void ToString_includesExpectedDetails_BothOn()
+        public void ToString_includesExpectedDetails_LengthsAndSinks()
         {
             var grid = CreateGridForToStringTests();
 

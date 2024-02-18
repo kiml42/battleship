@@ -21,6 +21,10 @@ namespace Battleship.Grid
         /// </summary>
         public IShotResult Shot => Shots.FirstOrDefault();
 
+        public bool AnyHits => _shots.Any(s => s.IsHit);
+
+        public bool AnySinks => _shots.Any(s => s.IsSink == true);
+
         public CoordinateState(int x, int y)
         {
             X = x;
@@ -53,13 +57,14 @@ namespace Battleship.Grid
 
             var shipSize = Ship != null && 
                 (
-                    (_settings.ShowLengthsOfHitShips && Shots.Any()) ||
-                    _settings.ShowLengthsOfAllShips
+                    _settings.ShowLengthsOfAllShips ||
+                    (_settings.ShowLengthsOfHitShips && AnyHits) ||
+                    (_settings.ShowLengthsOfShipsWhenSunk && AnySinks)
                 )
                 ? Ship.Length.ToString()
                 : " ";
 
-            var sinkIndicator = _settings.ShowSinks && Shots.Any(s => s.IsSink == true)
+            var sinkIndicator = _settings.ShowSinks && AnySinks
                 ? "S"
                 : " ";
 

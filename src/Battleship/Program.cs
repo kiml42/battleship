@@ -17,7 +17,7 @@ namespace Battleship
             var shipPlacer = new RandomShipPlacer();
             shipPlacer.TryPlaceShips(grid, 5, 4, 4, 3, 2);
 
-            var maskedGrid = new MaskedGridState(grid, new GridMaskSettings(true));
+            var maskedGrid = new MaskedGridState(grid, new GridMaskSettings(true, GridMaskSettings.ShipLengthIndicationSetting.Sink));
             Console.WriteLine(maskedGrid.ToStringWithIndices());
             Console.WriteLine($"{maskedGrid.RemainingTargetCoordinates} targets to find.");
             Console.WriteLine($"Call shot 0");
