@@ -23,7 +23,6 @@ namespace Battleship.Grid
 
         public override IEnumerable<int> OriginalShips => _grid.OriginalShips;
 
-        //TODO mask these.
         public override CoordinateState[][] CoordinateStates => _grid.CoordinateStates;
 
         private GridMaskSettings _settings;
@@ -48,6 +47,11 @@ namespace Battleship.Grid
                 }
             }
             return null;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString(_settings);
         }
     }
 }

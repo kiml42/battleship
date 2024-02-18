@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Battleship.Grid
@@ -36,7 +37,7 @@ namespace Battleship.Grid
         }
 
         /// <summary>
-        /// Creates a copy to be read from without being able to affect the state of teh original.
+        /// Creates a copy to be read from without being able to affect the state of the original.
         /// </summary>
         /// <returns></returns>
         public CoordinateState Clone()
@@ -44,15 +45,31 @@ namespace Battleship.Grid
             return new CoordinateState(X, Y, Ship, _shots);
         }
 
-        public override string ToString()
+        public string ToString(GridMaskSettings _settings)
         {
             var hitIndicator = Shots.Any()
-                ? Shots.First().IsHit ? "X" : "O"
+                ? Shots.Any(s => s.IsHit) ? "X" : "O"
                 : " ";
-            var shipSize = Ship?.Length.ToString() ?? " ";
-            var sinkIndicator = Shots.Any(s => s.IsSink == true) ? "S" : " ";
+
+            var shipSize = Ship != null && 
+                (
+                    (_settings.ShowLengthsOfHitShips && Shots.Any()) ||
+                    _settings.ShowLengthsOfAllShips
+                )
+                ? Ship.Length.ToString()
+                : " ";
+
+            var sinkIndicator = _settings.ShowSinks && Shots.Any(s => s.IsSink == true)
+                ? "S"
+                : " ";
+
             var text = hitIndicator + shipSize + sinkIndicator;
             return text;
+        }
+
+        public override string ToString()
+        {
+            return this.ToString(GridMaskSettings.ShowAll);
         }
 
         internal void AddShot(ShotResult result)

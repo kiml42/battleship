@@ -44,12 +44,17 @@ namespace Battleship.Grid
 
         public override string ToString()
         {
+            return this.ToString(GridMaskSettings.ShowAll);
+        }
+
+        public string ToString(GridMaskSettings settings)
+        {
             var sb = new StringBuilder();
 
             int rowLength = 0;
             foreach (var row in CoordinateStates)
             {
-                var cells = row.Select(coordinate => coordinate.ToString());
+                var cells = row.Select(coordinate => coordinate.ToString(settings));
                 var rowString = ColumnSeparator + string.Join(ColumnSeparator, cells) + ColumnSeparator;
                 rowLength = rowString.Length;
                 sb.AppendLine(new string('-', rowLength));

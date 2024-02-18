@@ -3,16 +3,28 @@
     /// <summary>
     /// Defines the settings for what should be shown to the player
     /// </summary>
-    public struct GridMaskSettings
+    public readonly struct GridMaskSettings
     {
         public readonly bool ShowSinks;
 
-        public readonly bool ShowLengthsOfHitShips;
+        public bool ShowLengthsOfAllShips => _shipLengthIndicationSetting == ShipLengthIndicationSetting.All;
+        public bool ShowLengthsOfHitShips => _shipLengthIndicationSetting == ShipLengthIndicationSetting.Hit || ShowLengthsOfAllShips;
 
-        public GridMaskSettings(bool showSinks, bool showLengthsOfHitShips)
+        private readonly ShipLengthIndicationSetting _shipLengthIndicationSetting;
+
+        public GridMaskSettings(bool showSinks, ShipLengthIndicationSetting shipLengthIndicationSetting = ShipLengthIndicationSetting.None)
         {
             ShowSinks = showSinks;
-            ShowLengthsOfHitShips = showLengthsOfHitShips;
+            _shipLengthIndicationSetting = shipLengthIndicationSetting;
+        }
+
+        public static GridMaskSettings ShowAll => new GridMaskSettings(true, ShipLengthIndicationSetting.All);
+
+        public enum ShipLengthIndicationSetting
+        {
+            None = 0,
+            Hit = 1,
+            All = 2
         }
     }
 }
