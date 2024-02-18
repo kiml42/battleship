@@ -14,10 +14,6 @@ namespace Battleship.Test.Grid
         {
             var grid = CreateGridForToStringTests();
 
-            var settings = new GridMaskSettings(false, false);
-
-            grid.ApplySettings(settings);
-
             var result = grid.ToString();
 
             StandardToStringAssertions(result, "   ", "X  ", "X  ");
@@ -28,7 +24,7 @@ namespace Battleship.Test.Grid
         {
             var grid = CreateGridForToStringTests();
 
-            var settings = new GridMaskSettings(false, false);
+            var settings = new GridMaskSettings(false);
 
             grid.ApplySettings(settings);
 
@@ -42,7 +38,7 @@ namespace Battleship.Test.Grid
         {
             var grid = CreateGridForToStringTests();
 
-            var settings = new GridMaskSettings(true, false);
+            var settings = new GridMaskSettings(true);
 
             grid.ApplySettings(settings);
 
@@ -56,7 +52,7 @@ namespace Battleship.Test.Grid
         {
             var grid = CreateGridForToStringTests();
 
-            var settings = new GridMaskSettings(false, true);
+            var settings = new GridMaskSettings(false, GridMaskSettings.ShipLengthIndicationSetting.Hit);
 
             grid.ApplySettings(settings);
 
@@ -70,7 +66,7 @@ namespace Battleship.Test.Grid
         {
             var grid = CreateGridForToStringTests();
 
-            var settings = new GridMaskSettings(true, true);
+            var settings = new GridMaskSettings(true, GridMaskSettings.ShipLengthIndicationSetting.Hit);
 
             grid.ApplySettings(settings);
 

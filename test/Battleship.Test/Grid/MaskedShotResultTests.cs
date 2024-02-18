@@ -48,8 +48,8 @@ namespace Battleship.Test.Grid
             var hit = new ShotResult(0, 0, true, false, 0);
             var sink = new ShotResult(0, 0, true, true, 0);
 
-            var showNothing = new GridMaskSettings(false, false);
-            var showSinks = new GridMaskSettings(true, false);
+            var showNothing = new GridMaskSettings(false);
+            var showSinks = new GridMaskSettings(true);
 
             yield return new object[] { "0,0 - ", notHit, showNothing };
             yield return new object[] { "0,0 - ", notHit, showSinks };
